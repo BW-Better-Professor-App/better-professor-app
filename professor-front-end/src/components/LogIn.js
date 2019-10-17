@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios'
 import { Button, Form, Label, Input, FormGroup } from 'reactstrap';
 
-const Login = () => { 
+const LogIn = () => { 
     const [userData, setUserData] = useState({
         username:'',
         password: ''
@@ -42,4 +42,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default LogIn;
