@@ -12,13 +12,13 @@ function App() {
     <Router>
       <div className="App">
         <Route exact path='/' component={HomePage}/>
-<<<<<<< HEAD
-        <Login />
-=======
         <Route path='/login' component={LogIn}/>
         <Route path='/signup' component={SignUp}/>
         <Route path='/studentlist' component={StudentList}/>
->>>>>>> 56bd282349a553d4b8909f5d1e2ac14b5637f5f6
+        <Route path='/login' component={LogIn}/>
+        <Route path='/signup' component={SignUp}/>
+        <Route path='/studentlist' component={StudentList}/>
+
       </div>
     </Router>
     
