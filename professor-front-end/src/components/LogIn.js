@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, Label, Input, FormGroup } from 'reactstrap';
 
-const Login = () => {
+const LogIn = () => {
     return (
         <div className='Login-form'>
             <h2>Login Form</h2>
