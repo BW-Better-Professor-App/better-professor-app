@@ -7,12 +7,15 @@ import SingleStudentPage from './SingleStudentPage';
 
 const StudentList = () => {
   const [studentList, setStudentList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     axiosWithAuth()
       .get('/professor-student-info')
       .then((response) => {
         setStudentList(response.data);
+        setIsLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -23,9 +26,10 @@ const StudentList = () => {
     <Container>
       <Row>
         <CardColumns>
-          {studentList.map((student) => (
-            <SingleStudentPage key={student.id} student={student} />
-          ))}
+          {isLoading ? <div>Loading students ...</div>
+            : studentList.map((student) => (
+              <SingleStudentPage key={student.id} student={student} />
+            ))}
         </CardColumns>
       </Row>
     </Container>
