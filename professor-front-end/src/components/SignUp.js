@@ -22,7 +22,9 @@ const SignUp = (props) => {
             console.log(res)
             axios.post(`https://betterprofessor.herokuapp.com/api/login`, user)
             .then(res=>{
-                console.log(res)
+                console.log(res.data.token)
+                localStorage.setItem('token', res.data.token)
+                props.history.push('/studentlist')
             })
         })
         .catch(err=>{
