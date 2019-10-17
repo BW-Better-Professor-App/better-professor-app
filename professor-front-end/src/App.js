@@ -12,7 +12,7 @@ import StudentList from './components/StudentList';
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className='App'>
         <Route exact path='/' component={HomePage}/>
         <Route path='/login' component={LogIn}/>
         <Route path='/signup' component={SignUp}/>
