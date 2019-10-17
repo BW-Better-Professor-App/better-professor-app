@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardBody } from 'reactstrap';
 
-import { axiosWithAuth } from "./utils/axiosWithAuth";
+import { axiosWithAuth } from './utils/axiosWithAuth';
 
 
 const StudentList = () => {
@@ -10,7 +10,7 @@ const StudentList = () => {
 
   useEffect(() => {
     axiosWithAuth
-      .get(`/students`)
+      .get('/students')
       .then((response) => {
         setStudentList(response.data);
       })
@@ -22,14 +22,14 @@ const StudentList = () => {
   return (
     <>
       {studentList.map((student) => (
-          <Link key={student.id} to={`/students/${student.student_id}`}>
-            <Card>
-              <CardHeader>{`${student.firstname} ${student.lastname}`}</CardHeader>
-              <CardBody>
-                <p>{student.email}</p>
-              </CardBody>
-            </Card>
-          </Link>
+        <Link key={student.id} to={`/students/${student.student_id}`}>
+          <Card>
+            <CardHeader>{`${student.firstname} ${student.lastname}`}</CardHeader>
+            <CardBody>
+              <p>{student.email}</p>
+            </CardBody>
+          </Card>
+        </Link>
       ))}
     </>
   );
