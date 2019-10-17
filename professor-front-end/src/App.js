@@ -12,9 +12,9 @@ function App() {
     <Router>
       <div className="App">
         <Route exact path='/' component={HomePage}/>
-        {/* <Route path='/login' component={LogIn}/>
+        <Route path='/login' component={LogIn}/>
         <Route path='/signup' component={SignUp}/>
-        <Route path='/studentlist' component={StudentList}/> */}
+        <Route path='/studentlist' component={StudentList}/>
       </div>
     </Router>
     
