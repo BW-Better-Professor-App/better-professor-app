@@ -4,7 +4,7 @@ import { Button, Form, Label, Input, FormGroup } from 'reactstrap';
 const SignUp = () => {
     return (
         <div className='SignUp Page'>
-            <h2>Login Form</h2>
+            <h2>Create an Account</h2>
             <p>Sign up below to access all of our great features.</p>
             <hr />
             <Form>
@@ -22,4 +22,4 @@ const SignUp = () => {
     )
 }
 
-export default Login;
+export default SignUp;
