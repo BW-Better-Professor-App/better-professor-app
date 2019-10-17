@@ -6,5 +6,5 @@ after it deletes it will reroute you to the student list
 also you will only be able to acess the projectform from the singlestudent view
 
 login info
-username: ______
-password: ______
+username: test@test.com
+password: pass

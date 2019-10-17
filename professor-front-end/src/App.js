@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
+import PrivateRoute from './components/PrivateRoute';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
@@ -16,7 +17,7 @@ function App() {
         <Route exact path='/' component={HomePage}/>
         <Route path='/login' component={LogIn}/>
         <Route path='/signup' component={SignUp}/>
-        <Route path='/studentlist' component={StudentList}/>
+        <PrivateRoute path='/studentlist' component={StudentList}/>
         <Route path='/students/:id' component={SingleStudentPage}/>
       </div>
     </Router>

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios'
 import { Button, Form, Label, Input, FormGroup } from 'reactstrap';
 
-const LogIn = () => { 
+const LogIn = (props) => { 
     const [userData, setUserData] = useState({
         username:'',
         password: ''
@@ -18,16 +18,18 @@ const LogIn = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        axios.post(`https://betterprofessor.herokuapp.com/api/login`)
+        axios.post(`https://betterprofessor.herokuapp.com/api/login`, userData)
         .then(res=>{
             console.log(res)
+            localStorage.setItem('token', res.data.token)
+            props.history.push('/studentlist')
         })
     }
     return (
         <div className='Login-form'>
             <h2>Login Form</h2>
             <hr />
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Label for='email'>Email:  </Label>
                     <Input type='email' name='username' id='email' placeholder='  email address' value={userData.email} onChange={handleChange} />
