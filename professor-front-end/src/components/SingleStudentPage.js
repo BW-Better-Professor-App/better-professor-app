@@ -1,83 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Card, CardBody,
-  CardHeader,
-  CardTitle,
+  CardHeader, CardSubtitle,
+  CardTitle, Container,
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading, ListGroupItemText,
 } from 'reactstrap';
 
-import { axiosWithAuth } from './utils/axiosWithAuth';
 
+const SingleStudentPage = ({ student }) => (
+  <Card>
+    <CardHeader>
+      <CardTitle tag="h2">{`${student.firstname} ${student.lastname}`}</CardTitle>
+      <CardSubtitle><p>{student.email}</p></CardSubtitle>
+    </CardHeader>
+    <CardBody>
+      <h3>Projects</h3>
+      {student.projects ? student.projects.map((project) => (
+        <Container key={project.id}>
+          <ListGroup>
+            <h4>{project.project_name}</h4>
+            <ListGroupItem>
+              <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
+              <ListGroupItemText>{project.project_deadline}</ListGroupItemText>
+            </ListGroupItem>
 
-const SingleStudentPage = ({ match }) => {
-  const [student, setStudent] = useState(undefined);
-  const { id } = match.params;
+            <ListGroupItem>
+              <ListGroupItemHeading>Feedback Deadline</ListGroupItemHeading>
+              <ListGroupItemText>{project.feedback_deadline}</ListGroupItemText>
+            </ListGroupItem>
 
-  useEffect(() => {
-    axiosWithAuth
-      .get(`/students/${id}`)
-      .then((response) => {
-        setStudent(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [id]);
+            <ListGroupItem>
+              <ListGroupItemHeading>Recommendation Deadline</ListGroupItemHeading>
+              <ListGroupItemText>{project.recommendation_deadline}</ListGroupItemText>
+            </ListGroupItem>
 
-  return (
-    <>
-      <h1>{`${student.firstname} ${student.lastname}`}</h1>
-      <p>{student.email}</p>
+            <ListGroupItem>
+              <ListGroupItemHeading>Student Message</ListGroupItemHeading>
+              <ListGroupItemText>{project.studentMessage}</ListGroupItemText>
+            </ListGroupItem>
 
-      <h2>Projects</h2>
-      <ListGroup>
-        {student.projects.map((project) => (
-          <Card key={project.id}>
-            <CardHeader>
-              <CardTitle>{project.project_name}</CardTitle>
-            </CardHeader>
-
-            <CardBody>
-              <ListGroup flush>
-                <ListGroupItem>
-                  <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
-                  <ListGroupItemText>{project.project_deadline}</ListGroupItemText>
-                </ListGroupItem>
-                <ListGroupItem>
-                  <ListGroupItemHeading>Feedback Deadline</ListGroupItemHeading>
-                  <ListGroupItemText>{project.feedback_deadline}</ListGroupItemText>
-                </ListGroupItem>
-                <ListGroupItem>
-                  <ListGroupItemHeading>Recommendation Deadline</ListGroupItemHeading>
-                  <ListGroupItemText>{project.recommendation_deadline}</ListGroupItemText>
-                </ListGroupItem>
-
-                <ListGroupItem>
-                  <ListGroupItemHeading>Student Message</ListGroupItemHeading>
-                  <ListGroupItemText>{project.studentMessage}</ListGroupItemText>
-                </ListGroupItem>
-
-                <ListGroupItem>
-                  <ListGroupItemHeading>Professor Message</ListGroupItemHeading>
-                  <ListGroupItemText>{project.professorMessage}</ListGroupItemText>
-                </ListGroupItem>
-              </ListGroup>
-            </CardBody>
-          </Card>
-        ))}
-      </ListGroup>
-    </>
-  );
-};
+            <ListGroupItem>
+              <ListGroupItemHeading>Professor Message</ListGroupItemHeading>
+              <ListGroupItemText>{project.professorMessage}</ListGroupItemText>
+            </ListGroupItem>
+          </ListGroup>
+        </Container>
+      )) : <p>No projects assigned</p>}
+    </CardBody>
+  </Card>
+);
 
 SingleStudentPage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
+  student: PropTypes.shape({
+    firstname: PropTypes.string,
+    lastname: PropTypes.string,
+    email: PropTypes.string,
+    projects: PropTypes.arrayOf(
+      PropTypes.shape({
+        project_name: PropTypes.string,
+        project_deadline: PropTypes.date,
+        feedback_deadline: PropTypes.date,
+        recommendation_deadline: PropTypes.date,
+        studentMessage: PropTypes.string,
+        professorMessage: PropTypes.string,
+      }),
+    ),
   }).isRequired,
 };
 
