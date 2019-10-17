@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card, CardBody,
   CardHeader,
@@ -8,8 +8,24 @@ import {
   ListGroupItemHeading, ListGroupItemText
 } from 'reactstrap';
 
+import {axiosWithAuth} from "./utils/axiosWithAuth";
 
-const SingleStudentPage = ({ student }) => {
+
+const SingleStudentPage = ({ match }) => {
+  const [student, setStudent] = useState(undefined);
+  const { id } = match.params;
+
+  useEffect(() => {
+    axiosWithAuth
+      .get(`/students/${id}`)
+      .then((response) => {
+        setStudent(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [id]);
+
   return (
     <>
       <h1>{`${student.firstname} ${student.lastname}`}</h1>
