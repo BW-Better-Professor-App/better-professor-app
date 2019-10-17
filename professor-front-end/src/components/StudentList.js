@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  CardColumns, Card, CardHeader, CardBody,
-} from 'reactstrap';
+import { Container, Row, CardColumns } from 'reactstrap';
 
 import { axiosWithAuth } from './utils/axiosWithAuth';
+import SingleStudentPage from './SingleStudentPage';
 
 
 const StudentList = () => {
@@ -12,7 +10,7 @@ const StudentList = () => {
 
   useEffect(() => {
     axiosWithAuth()
-      .get('/students')
+      .get('/professor-student-info')
       .then((response) => {
         setStudentList(response.data);
       })
@@ -22,19 +20,15 @@ const StudentList = () => {
   }, []);
 
   return (
-    <CardColumns>
-      {studentList.map((student) => (
-        <Link key={student.id} to={`/students/${student.id}`}>
-          <Card>
-            <CardHeader>{`${student.firstname} ${student.lastname}`}</CardHeader>
-            <CardBody>
-              <p>{student.email}</p>
-              {console.log(student)}
-            </CardBody>
-          </Card>
-        </Link>
-      ))}
-    </CardColumns>
+    <Container>
+      <Row>
+        <CardColumns>
+          {studentList.map((student) => (
+            <SingleStudentPage key={student.id} student={student} />
+          ))}
+        </CardColumns>
+      </Row>
+    </Container>
   );
 };
 
