@@ -16,7 +16,7 @@ const SignUp = () => {
                     <Label for='password'>Password:  </Label>
                     <Input type='password' name='password' id='password' placeholder='  password' />
                 </FormGroup>
-                <Button>SignUp</Button>
+                <Button>Sign Up</Button>
             </Form>                
         </div>
     )
