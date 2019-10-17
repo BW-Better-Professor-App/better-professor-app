@@ -1,10 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
 import StudentList from './components/StudentList';
+import SingleStudentPage from "./components/SingleStudentPage";
 
 
 function App() {
@@ -15,9 +17,10 @@ function App() {
         <Route path='/login' component={LogIn}/>
         <Route path='/signup' component={SignUp}/>
         <Route path='/studentlist' component={StudentList}/>
+        <Route path='/students/:id' component={SingleStudentPage}/>
       </div>
     </Router>
-    
+
   );
 }
 
