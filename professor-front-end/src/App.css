@@ -20,3 +20,17 @@
 .App-link {
   color: #09d3ac;
 }
+
+Input {
+  margin: 1%;
+}
+
+Button {
+  margin: 1%;
+  padding: 1%;
+}
+
+#professor_message{
+  height: 15%;
+  width: 30%;
+}

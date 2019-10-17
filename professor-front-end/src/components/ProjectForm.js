@@ -9,17 +9,54 @@ const ProjectForm = () => {
             <hr />
             <Form>
                 <FormGroup>
-                    <Label for='studentName'>Student Name </Label>
-                    <Input type='email' name='email' id='email' placeholder='  email address' />
+                    <Label for='project_id'>Project ID#: </Label>
+                    <Input 
+                        type='text' 
+                        name='id' 
+                        id='project_id' 
+                        placeholder='  create project id' 
+                    />
                 </FormGroup>
                 <FormGroup>
-                    <Label for='password'>Password:  </Label>
-                    <Input type='password' name='password' id='password' placeholder='  password' />
+                    <Label for='project_name'>Project Name:  </Label>
+                    <Input 
+                        type='text' 
+                        name='projectName' 
+                        id='project_name' 
+                        placeholder='  create project name' 
+                    />
                 </FormGroup>
-                <Button>Sign Up</Button>
+                <FormGroup>
+                    <Label for='project_deadline'>Project Due by:</Label>
+                    <Input
+                        type='date'
+                        name='project_deadline'
+                        id='project_deadline_date'
+                        placeholder='date placeholder'
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for='feedback_deadline'>Feedback due by: </Label>
+                    <Input
+                        type='date'
+                        name='feedback_deadline'
+                        id='feedback_deadline'
+                        placeholder='date placeholder'
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for='professor_message'>Professor Notes:  </Label>
+                    <Input 
+                        type='textarea' 
+                        name='professor_message' 
+                        id='professor_message' 
+                        placeholder=' enter relevant notes here' 
+                    />
+                </FormGroup>
+                <Button>Add Project</Button>
             </Form>                
         </div>
     )
 }
 
-export default Login;
+export default ProjectForm;
