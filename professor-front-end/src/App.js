@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
@@ -11,9 +11,9 @@ function App() {
     <Router>
       <div className="App">
         <Route exact path='/' component={HomePage}/>
-        <Route path='/login' component={LogIn}/>
+        {/* <Route path='/login' component={LogIn}/>
         <Route path='/signup' component={SignUp}/>
-        <Route path='/studentlist' component={StudentList}/>
+        <Route path='/studentlist' component={StudentList}/> */}
       </div>
     </Router>
     
