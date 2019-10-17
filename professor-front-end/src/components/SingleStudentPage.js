@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   Card, CardBody,
   CardHeader,
   CardTitle,
   ListGroup,
   ListGroupItem,
-  ListGroupItemHeading, ListGroupItemText
+  ListGroupItemHeading, ListGroupItemText,
 } from 'reactstrap';
 
-import {axiosWithAuth} from "./utils/axiosWithAuth";
+import { axiosWithAuth } from './utils/axiosWithAuth';
 
 
 const SingleStudentPage = ({ match }) => {
@@ -69,7 +70,15 @@ const SingleStudentPage = ({ match }) => {
         ))}
       </ListGroup>
     </>
-  )
+  );
+};
+
+SingleStudentPage.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default SingleStudentPage;
