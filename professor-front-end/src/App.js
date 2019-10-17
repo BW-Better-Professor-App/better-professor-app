@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
+import PrivateRoute from './components/PrivateRoute';
 import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
@@ -14,7 +15,7 @@ function App() {
         <Route exact path='/' component={HomePage}/>
         <Route path='/login' component={LogIn}/>
         <Route path='/signup' component={SignUp}/>
-        <Route path='/studentlist' component={StudentList}/>
+        <PrivateRoute path='/studentlist' component={StudentList}/>
       </div>
     </Router>
     
