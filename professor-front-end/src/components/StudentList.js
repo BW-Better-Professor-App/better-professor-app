@@ -27,9 +27,10 @@ const StudentList = () => {
       <Row>
         <CardColumns>
           {isLoading ? <div>Loading students ...</div>
-            : studentList.map((student) => (
+            : studentList.length > 0 ? studentList.map((student) => (
               <SingleStudentPage key={student.id} student={student} />
-            ))}
+            ))
+              : <div>No students are assigned.</div>}
         </CardColumns>
       </Row>
     </Container>
