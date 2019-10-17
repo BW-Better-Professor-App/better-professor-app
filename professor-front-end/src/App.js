@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Route} from 'react-router-dom'
 import './App.css';
 import HomePage from './components/HomePage';
 
+
 function App() {
   return (
     <Router>
       <div className="App">
         <Route exact path='/' component={HomePage}/>
-
+        <Login />
       </div>
     </Router>
     
