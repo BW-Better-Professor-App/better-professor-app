@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route} from 'react-router-dom'
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
@@ -16,7 +17,7 @@ function App() {
         <Route path='/studentlist' component={StudentList}/>
       </div>
     </Router>
-    
+
   );
 }
 
