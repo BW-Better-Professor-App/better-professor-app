@@ -18,42 +18,47 @@ const SingleStudentPage = ({ student }) => (
       <Button color="secondary">Edit</Button>
     </Jumbotron>
 
-    <ListGroup>
-      {student.projects ? student.projects.map((project) => (
-        <Card key={project.id}>
-          <CardHeader>
-            <CardTitle>{project.project_name}</CardTitle>
-          </CardHeader>
+    <Container>
+      <ListGroup>
+        <Button color="success" className="w-25 align-self-center">Add</Button>
+        {student.projects ? student.projects.map((project) => (
+          <Card key={project.id}>
+            <CardHeader>
+              <CardTitle>{project.project_name}</CardTitle>
+              <Button color="secondary">Edit</Button>
+              <Button color="danger">Delete</Button>
+            </CardHeader>
 
-          <CardBody>
-            <ListGroup flush>
-              <ListGroupItem>
-                <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
-                <ListGroupItemText>{project.project_deadline}</ListGroupItemText>
-              </ListGroupItem>
-              <ListGroupItem>
-                <ListGroupItemHeading>Feedback Deadline</ListGroupItemHeading>
-                <ListGroupItemText>{project.feedback_deadline}</ListGroupItemText>
-              </ListGroupItem>
-              <ListGroupItem>
-                <ListGroupItemHeading>Recommendation Deadline</ListGroupItemHeading>
-                <ListGroupItemText>{project.recommendation_deadline}</ListGroupItemText>
-              </ListGroupItem>
+            <CardBody>
+              <ListGroup flush>
+                <ListGroupItem>
+                  <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
+                  <ListGroupItemText>{project.project_deadline}</ListGroupItemText>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemHeading>Feedback Deadline</ListGroupItemHeading>
+                  <ListGroupItemText>{project.feedback_deadline}</ListGroupItemText>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemHeading>Recommendation Deadline</ListGroupItemHeading>
+                  <ListGroupItemText>{project.recommendation_deadline}</ListGroupItemText>
+                </ListGroupItem>
 
-              <ListGroupItem>
-                <ListGroupItemHeading>Student Message</ListGroupItemHeading>
-                <ListGroupItemText>{project.studentMessage}</ListGroupItemText>
-              </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemHeading>Student Message</ListGroupItemHeading>
+                  <ListGroupItemText>{project.studentMessage}</ListGroupItemText>
+                </ListGroupItem>
 
-              <ListGroupItem>
-                <ListGroupItemHeading>Professor Message</ListGroupItemHeading>
-                <ListGroupItemText>{project.professorMessage}</ListGroupItemText>
-              </ListGroupItem>
-            </ListGroup>
-          </CardBody>
-        </Card>
-      )) : <p>No projects assigned</p>}
-    </ListGroup>
+                <ListGroupItem>
+                  <ListGroupItemHeading>Professor Message</ListGroupItemHeading>
+                  <ListGroupItemText>{project.professorMessage}</ListGroupItemText>
+                </ListGroupItem>
+              </ListGroup>
+            </CardBody>
+          </Card>
+        )) : <h2>No projects assigned</h2>}
+      </ListGroup>
+    </Container>
   </Container>
 );
 
