@@ -16,6 +16,7 @@ const SingleStudentPage = ({ student }) => (
       <CardTitle tag="h2">{`${student.firstname} ${student.lastname}`}</CardTitle>
       <CardSubtitle><p>{student.email}</p></CardSubtitle>
     </CardHeader>
+
     <CardBody>
       <h3>Projects</h3>
       {student.projects ? student.projects.map((project) => (
