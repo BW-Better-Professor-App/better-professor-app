@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, CardColumns } from 'reactstrap';
+import {
+  Container, Row, CardColumns, Spinner,
+} from 'reactstrap';
 
 import { axiosWithAuth } from './utils/axiosWithAuth';
 import SingleStudentPage from './SingleStudentPage';
@@ -12,7 +14,7 @@ const StudentList = () => {
   useEffect(() => {
     setIsLoading(true);
     axiosWithAuth()
-      .get('/professor-student-info')
+      .get('/students')
       .then((response) => {
         setStudentList(response.data);
         setIsLoading(false);
@@ -22,15 +24,25 @@ const StudentList = () => {
       });
   }, []);
 
+  if (isLoading) {
+    return (
+      <Container className="d-flex vh-100 justify-content-center">
+        <Spinner className="align-self-center" style={{ width: '5rem', height: '5rem' }} color="primary" />
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <Row>
         <CardColumns>
-          {isLoading ? <div>Loading students ...</div>
-            : studentList.length > 0 ? studentList.map((student) => (
-              <SingleStudentPage key={student.id} student={student} />
-            ))
-              : <div>No students are assigned.</div>}
+          {studentList.length > 0 ? studentList.map((student) => (
+            <SingleStudentPage
+              key={student.id}
+              student={student}
+            />
+          ))
+            : <div>No students are assigned.</div>}
         </CardColumns>
       </Row>
     </Container>
