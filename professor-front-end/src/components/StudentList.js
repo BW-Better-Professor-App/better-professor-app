@@ -14,7 +14,7 @@ const StudentList = () => {
   useEffect(() => {
     setIsLoading(true);
     axiosWithAuth()
-      .get('/students')
+      .get('/professor-student-info')
       .then((response) => {
         setStudentList(response.data);
         setIsLoading(false);
