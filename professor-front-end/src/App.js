@@ -7,6 +7,7 @@ import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
 import StudentList from './components/StudentList';
+import ProjectForm from './components/ProjectForm';
 import SingleStudentPage from './components/SingleStudentPage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -28,6 +29,7 @@ function App() {
             <StudentList setStudent={setStudent} />
           )}
         />
+        <PrivateRoute path="/projectform" component={ProjectForm} />
         <Route
           path="/students/:id"
           render={(props) => (
