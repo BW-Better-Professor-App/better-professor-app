@@ -7,6 +7,7 @@ import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
 import StudentList from './components/StudentList';
+import ProjectForm from './components/ProjectForm';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path='/login' component={LogIn}/>
         <Route path='/signup' component={SignUp}/>
         <PrivateRoute path='/studentlist' component={StudentList}/>
+        <PrivateRoute path='/projectform' component={ProjectForm}/>
       </div>
     </Router>
 
