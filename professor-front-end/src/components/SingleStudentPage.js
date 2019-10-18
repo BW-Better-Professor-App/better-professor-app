@@ -1,57 +1,60 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Card, CardBody,
-  CardHeader, CardSubtitle,
-  CardTitle, Container,
+  Button, Card, CardBody, CardHeader, CardTitle, Container,
+  Jumbotron,
   ListGroup,
   ListGroupItem,
-  ListGroupItemHeading, ListGroupItemText,
+  ListGroupItemHeading,
+  ListGroupItemText,
 } from 'reactstrap';
 
 
 const SingleStudentPage = ({ student }) => (
-  <Card>
-    <CardHeader>
-      <CardTitle tag="h2">{`${student.firstname} ${student.lastname}`}</CardTitle>
-      <CardSubtitle><p>{student.email}</p></CardSubtitle>
-    </CardHeader>
+  <Container fluid>
+    <Jumbotron>
+      <h1>{`${student.firstname} ${student.lastname}`}</h1>
+      <p>{student.email}</p>
+      <Button color="secondary">Edit</Button>
+    </Jumbotron>
 
-    <CardBody>
-      <h3>Projects</h3>
+    <ListGroup>
       {student.projects ? student.projects.map((project) => (
-        <Container key={project.id}>
-          <ListGroup>
-            <h4>{project.project_name}</h4>
-            <ListGroupItem>
-              <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
-              <ListGroupItemText>{project.project_deadline}</ListGroupItemText>
-            </ListGroupItem>
+        <Card key={project.id}>
+          <CardHeader>
+            <CardTitle>{project.project_name}</CardTitle>
+          </CardHeader>
 
-            <ListGroupItem>
-              <ListGroupItemHeading>Feedback Deadline</ListGroupItemHeading>
-              <ListGroupItemText>{project.feedback_deadline}</ListGroupItemText>
-            </ListGroupItem>
+          <CardBody>
+            <ListGroup flush>
+              <ListGroupItem>
+                <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
+                <ListGroupItemText>{project.project_deadline}</ListGroupItemText>
+              </ListGroupItem>
+              <ListGroupItem>
+                <ListGroupItemHeading>Feedback Deadline</ListGroupItemHeading>
+                <ListGroupItemText>{project.feedback_deadline}</ListGroupItemText>
+              </ListGroupItem>
+              <ListGroupItem>
+                <ListGroupItemHeading>Recommendation Deadline</ListGroupItemHeading>
+                <ListGroupItemText>{project.recommendation_deadline}</ListGroupItemText>
+              </ListGroupItem>
 
-            <ListGroupItem>
-              <ListGroupItemHeading>Recommendation Deadline</ListGroupItemHeading>
-              <ListGroupItemText>{project.recommendation_deadline}</ListGroupItemText>
-            </ListGroupItem>
+              <ListGroupItem>
+                <ListGroupItemHeading>Student Message</ListGroupItemHeading>
+                <ListGroupItemText>{project.studentMessage}</ListGroupItemText>
+              </ListGroupItem>
 
-            <ListGroupItem>
-              <ListGroupItemHeading>Student Message</ListGroupItemHeading>
-              <ListGroupItemText>{project.studentMessage}</ListGroupItemText>
-            </ListGroupItem>
-
-            <ListGroupItem>
-              <ListGroupItemHeading>Professor Message</ListGroupItemHeading>
-              <ListGroupItemText>{project.professorMessage}</ListGroupItemText>
-            </ListGroupItem>
-          </ListGroup>
-        </Container>
+              <ListGroupItem>
+                <ListGroupItemHeading>Professor Message</ListGroupItemHeading>
+                <ListGroupItemText>{project.professorMessage}</ListGroupItemText>
+              </ListGroupItem>
+            </ListGroup>
+          </CardBody>
+        </Card>
       )) : <p>No projects assigned</p>}
-    </CardBody>
-  </Card>
+    </ListGroup>
+  </Container>
 );
 
 SingleStudentPage.propTypes = {
