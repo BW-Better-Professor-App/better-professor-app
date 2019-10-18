@@ -66,35 +66,34 @@ const StudentList = ({ setStudent }) => {
         <Row>
           <CardColumns>
             {studentList.map((student) => (
-              <Link
-                key={student.id}
-                to={`/students/${student.id}`}
-                value={student}
-                onClick={() => { handleClick(student); }}
-                onKeyPress={() => { handleClick(student); }}
-              >
-                <Card>
-                  <CardHeader>
+              <Card key={student.student_id}>
+                <CardHeader>
+                  <Link
+                    to={`/students/${student.student_id}`}
+                    value={student}
+                    onClick={() => { handleClick(student); }}
+                    onKeyPress={() => { handleClick(student); }}
+                  >
                     <CardTitle tag="h2">{`${student.firstname} ${student.lastname}`}</CardTitle>
-                    <CardSubtitle><p>{student.email}</p></CardSubtitle>
-                  </CardHeader>
+                  </Link>
+                  <CardSubtitle><p>{student.email}</p></CardSubtitle>
+                </CardHeader>
 
-                  <CardBody>
-                    <h3>Projects</h3>
-                    <ListGroup>
-                      {student.projects ? student.projects.map((project) => (
-                        <ListGroupItem key={project.id}>
-                          <h4>{project.project_name}</h4>
-                        </ListGroupItem>
-                      )) : <p>No projects assigned</p>}
-                    </ListGroup>
-                  </CardBody>
+                <CardBody>
+                  <h3>Projects</h3>
+                  <ListGroup flush>
+                    {student.project ? student.project.map((project) => (
+                      <ListGroupItem key={`${student.student_id}-${project.project_id}`}>
+                        <h4>{project.project_name}</h4>
+                      </ListGroupItem>
+                    )) : <p>No projects assigned</p>}
+                  </ListGroup>
+                </CardBody>
 
-                  <CardFooter>
-                    <Button color="danger">Delete</Button>
-                  </CardFooter>
-                </Card>
-              </Link>
+                <CardFooter>
+                  <Button color="danger">Delete</Button>
+                </CardFooter>
+              </Card>
             ))}
           </CardColumns>
         </Row>

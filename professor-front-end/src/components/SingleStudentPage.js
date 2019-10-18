@@ -21,10 +21,10 @@ const SingleStudentPage = ({ student }) => (
     <Container>
       <ListGroup>
         <Button color="success" className="w-25 align-self-center">Add</Button>
-        {student.projects ? student.projects.map((project) => (
+        {student.project ? student.project.map((project) => (
           <Card key={project.id}>
             <CardHeader>
-              <CardTitle>{project.project_name}</CardTitle>
+              <CardTitle tag="h2">{project.project_name}</CardTitle>
               <Button color="secondary">Edit</Button>
               <Button color="danger">Delete</Button>
             </CardHeader>
@@ -67,7 +67,7 @@ SingleStudentPage.propTypes = {
     firstname: PropTypes.string,
     lastname: PropTypes.string,
     email: PropTypes.string,
-    projects: PropTypes.arrayOf(
+    project: PropTypes.arrayOf(
       PropTypes.shape({
         project_name: PropTypes.string,
         project_deadline: PropTypes.date,
