@@ -31,6 +31,7 @@ const StudentList = ({ setStudent }) => {
           if (a.firstname > b.firstname) { return 1; }
           return 0;
         });
+
         setStudentList(response.data);
         // once studentlist is sorted and set, replace spinner with list
         setIsLoading(false);

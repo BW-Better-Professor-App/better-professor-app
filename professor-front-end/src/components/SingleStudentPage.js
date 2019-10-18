@@ -22,7 +22,7 @@ const SingleStudentPage = ({ student }) => (
       <ListGroup>
         <Button color="success" className="w-25 align-self-center">Add</Button>
         {student.project ? student.project.map((project) => (
-          <Card key={project.id}>
+          <Card key={project.project_id}>
             <CardHeader>
               <CardTitle tag="h2">{project.project_name}</CardTitle>
               <Button color="secondary">Edit</Button>
@@ -33,15 +33,15 @@ const SingleStudentPage = ({ student }) => (
               <ListGroup flush>
                 <ListGroupItem>
                   <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
-                  <ListGroupItemText>{project.project_deadline}</ListGroupItemText>
+                  <ListGroupItemText>{new Date(project.project_deadline).toDateString()}</ListGroupItemText>
                 </ListGroupItem>
                 <ListGroupItem>
                   <ListGroupItemHeading>Feedback Deadline</ListGroupItemHeading>
-                  <ListGroupItemText>{project.feedback_deadline}</ListGroupItemText>
+                  <ListGroupItemText>{new Date(project.feedback_deadline).toDateString()}</ListGroupItemText>
                 </ListGroupItem>
                 <ListGroupItem>
                   <ListGroupItemHeading>Recommendation Deadline</ListGroupItemHeading>
-                  <ListGroupItemText>{project.recommendation_deadline}</ListGroupItemText>
+                  <ListGroupItemText>{new Date(project.recommendation_deadline).toDateString()}</ListGroupItemText>
                 </ListGroupItem>
 
                 <ListGroupItem>
@@ -70,9 +70,9 @@ SingleStudentPage.propTypes = {
     project: PropTypes.arrayOf(
       PropTypes.shape({
         project_name: PropTypes.string,
-        project_deadline: PropTypes.date,
-        feedback_deadline: PropTypes.date,
-        recommendation_deadline: PropTypes.date,
+        project_deadline: PropTypes.string,
+        feedback_deadline: PropTypes.string,
+        recommendation_deadline: PropTypes.string,
         studentMessage: PropTypes.string,
         professorMessage: PropTypes.string,
       }),
