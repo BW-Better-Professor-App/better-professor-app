@@ -1,43 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Card, CardBody,
-  CardHeader,
-  CardTitle,
+  Button, Card, CardBody, CardHeader, CardTitle, Container,
+  Jumbotron,
   ListGroup,
   ListGroupItem,
-  ListGroupItemHeading, ListGroupItemText,
+  ListGroupItemHeading,
+  ListGroupItemText,
 } from 'reactstrap';
 
-import { axiosWithAuth } from './utils/axiosWithAuth';
 
-
-const SingleStudentPage = ({ match }) => {
-  const [student, setStudent] = useState(undefined);
-  const { id } = match.params;
-
-  useEffect(() => {
-    axiosWithAuth
-      .get(`/students/${id}`)
-      .then((response) => {
-        setStudent(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [id]);
-
-  return (
-    <>
+const SingleStudentPage = ({ student }) => (
+  <Container fluid>
+    <Jumbotron>
       <h1>{`${student.firstname} ${student.lastname}`}</h1>
       <p>{student.email}</p>
+      <Button color="secondary">Edit</Button>
+    </Jumbotron>
 
-      <h2>Projects</h2>
+    <Container>
       <ListGroup>
-        {student.projects.map((project) => (
+        <Button color="success" className="w-25 align-self-center">Add</Button>
+        {student.project ? student.project.map((project) => (
           <Card key={project.id}>
             <CardHeader>
-              <CardTitle>{project.project_name}</CardTitle>
+              <CardTitle tag="h2">{project.project_name}</CardTitle>
+              <Button color="secondary">Edit</Button>
+              <Button color="danger">Delete</Button>
             </CardHeader>
 
             <CardBody>
@@ -67,17 +56,27 @@ const SingleStudentPage = ({ match }) => {
               </ListGroup>
             </CardBody>
           </Card>
-        ))}
+        )) : <h2>No projects assigned</h2>}
       </ListGroup>
-    </>
-  );
-};
+    </Container>
+  </Container>
+);
 
 SingleStudentPage.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      id: PropTypes.string,
-    }),
+  student: PropTypes.shape({
+    firstname: PropTypes.string,
+    lastname: PropTypes.string,
+    email: PropTypes.string,
+    project: PropTypes.arrayOf(
+      PropTypes.shape({
+        project_name: PropTypes.string,
+        project_deadline: PropTypes.date,
+        feedback_deadline: PropTypes.date,
+        recommendation_deadline: PropTypes.date,
+        studentMessage: PropTypes.string,
+        professorMessage: PropTypes.string,
+      }),
+    ),
   }).isRequired,
 };
 
