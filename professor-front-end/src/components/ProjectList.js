@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button, Card, CardBody, CardFooter, CardHeader, CardTitle, Container,
+  Button, Card, CardBody, CardColumns, CardFooter, CardHeader, CardTitle, Container,
   Form, FormGroup, Input, Label, ListGroup, ListGroupItem, ListGroupItemHeading,
   ListGroupItemText, Modal, ModalBody, ModalFooter, ModalHeader, Spinner,
 } from 'reactstrap';
@@ -18,49 +18,53 @@ const ProjectList = ({
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
-    let mounted = true;
-
-    if (mounted) {
-      if (refreshProjects) {
-        axiosWithAuth()
-          .get('/projects')
-          .then((response) => {
-            response.data.sort((a, b) => {
-              if (a.project_name.toUpperCase() < b.project_name.toUpperCase()) {
-                return -1;
-              }
-              if (a.project_name.toUpperCase() > b.project_name.toUpperCase()) {
-                return 1;
-              }
-              return 0;
-            });
-
-            setProjectList(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
+    if (refreshProjects) {
+      axiosWithAuth()
+        .get('/projects')
+        .then((response) => {
+          response.data.sort((a, b) => {
+            if (a.project_name.toUpperCase() < b.project_name.toUpperCase()) {
+              return -1;
+            }
+            if (a.project_name.toUpperCase() > b.project_name.toUpperCase()) {
+              return 1;
+            }
+            return 0;
           });
-      }
 
-      if (projectList.length > 0) {
-        setIsLoading(false);
-      }
-
-      setRefreshProjects(false);
+          setProjectList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
 
-    return () => {
-      mounted = false;
-    };
+    if (projectList.length > 0) {
+      setIsLoading(false);
+    }
+
+    setRefreshProjects(false);
   }, [projectList.length, refreshProjects, setProjectList, setRefreshProjects]);
 
   const toggleModal = () => {
     setModal(!modal);
   };
 
-  const handleClick = (project) => {
+  const handleEdit = (project) => {
     setProjectToEdit(project);
     toggleModal();
+  };
+
+  const handleDelete = (project) => {
+    axiosWithAuth()
+      .delete(`/projects/${project.id}`)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setRefreshProjects(true);
   };
 
   const handleChange = (e) => {
@@ -203,50 +207,53 @@ const ProjectList = ({
         </Form>
       </Modal>
 
-      {projectList.map((project) => (
-        <Card key={project.id}>
-          <CardHeader>
-            <CardTitle tag="h2">{project.project_name}</CardTitle>
-          </CardHeader>
+      <CardColumns>
+        {projectList.map((project) => (
+          <Card key={project.id}>
+            <CardHeader>
+              <CardTitle tag="h2">{project.project_name}</CardTitle>
+            </CardHeader>
 
-          <CardBody>
-            <ListGroup flush>
-              <ListGroupItem>
-                <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
-                <ListGroupItemText>
-                  {new Date(project.project_deadline).toLocaleString([], dateDisplayOptions)}
-                </ListGroupItemText>
-              </ListGroupItem>
-              <ListGroupItem>
-                <ListGroupItemHeading>Feedback Deadline</ListGroupItemHeading>
-                <ListGroupItemText>
-                  {new Date(project.feedback_deadline).toLocaleString([], dateDisplayOptions)}
-                </ListGroupItemText>
-              </ListGroupItem>
-              <ListGroupItem>
-                <ListGroupItemHeading>Recommendation Deadline</ListGroupItemHeading>
-                <ListGroupItemText>
-                  {new Date(project.recommendation_deadline).toLocaleString([], dateDisplayOptions)}
-                </ListGroupItemText>
-              </ListGroupItem>
+            <CardBody>
+              <ListGroup flush>
+                <ListGroupItem>
+                  <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
+                  <ListGroupItemText>
+                    {new Date(project.project_deadline).toLocaleString([], dateDisplayOptions)}
+                  </ListGroupItemText>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemHeading>Feedback Deadline</ListGroupItemHeading>
+                  <ListGroupItemText>
+                    {new Date(project.feedback_deadline).toLocaleString([], dateDisplayOptions)}
+                  </ListGroupItemText>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemHeading>Recommendation Deadline</ListGroupItemHeading>
+                  <ListGroupItemText>
+                    {new Date(project.recommendation_deadline).toLocaleString([], dateDisplayOptions)}
+                  </ListGroupItemText>
+                </ListGroupItem>
 
-              <ListGroupItem>
-                <ListGroupItemHeading>Student Message</ListGroupItemHeading>
-                <ListGroupItemText>{project.studentMessage}</ListGroupItemText>
-              </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemHeading>Student Message</ListGroupItemHeading>
+                  <ListGroupItemText>{project.studentMessage}</ListGroupItemText>
+                </ListGroupItem>
 
-              <ListGroupItem>
-                <ListGroupItemHeading>Professor Message</ListGroupItemHeading>
-                <ListGroupItemText>{project.professorMessage}</ListGroupItemText>
-              </ListGroupItem>
-            </ListGroup>
-          </CardBody>
+                <ListGroupItem>
+                  <ListGroupItemHeading>Professor Message</ListGroupItemHeading>
+                  <ListGroupItemText>{project.professorMessage}</ListGroupItemText>
+                </ListGroupItem>
+              </ListGroup>
+            </CardBody>
 
-          <CardFooter>
-            <Button onClick={() => { handleClick(project); }}>Edit</Button>
-          </CardFooter>
-        </Card>
-      ))}
+            <CardFooter>
+              <Button onClick={() => { handleEdit(project); }}>Edit</Button>
+              <Button onClick={() => { handleDelete(project); }} color="danger">Delete</Button>
+            </CardFooter>
+          </Card>
+        ))}
+      </CardColumns>
     </Container>
   );
 };
