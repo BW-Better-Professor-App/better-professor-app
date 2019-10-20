@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
+import useLocalStorage from './components/hooks/localStorage';
 import PrivateRoute from './components/PrivateRoute';
 import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
@@ -15,18 +15,14 @@ import './App.css';
 
 
 function App() {
-  // using localstorage so student data is persistent on page refresh
-  const useLocalStorage = (key, initialValue) => {
-    const [storedValue, setStoredValue] = useState(() => {
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-    });
-    const setValue = (value) => {
-      setStoredValue(value);
-      window.localStorage.setItem(key, JSON.stringify(value));
-    };
-    return [storedValue, setValue];
-  };
+  /* studentList initialized to non-empty array with null value to indicate it has not
+  yet been altered by the API call and a loading message should be displayed */
+  const [studentList, setStudentList] = useState([null]);
+  // state to control when the studentList should be refreshed to limit redundant API calls
+  const [refresh, setRefresh] = useState(true);
+  /* useLocalStorage allows the student to stay persistent after a browser refresh. Without
+  * this, the student page would show "undefined" on a refresh because it would wipe out
+  * state. */
   const [student, setStudent] = useLocalStorage('student', {});
 
   return (
@@ -38,16 +34,21 @@ function App() {
         <PrivateRoute
           path="/studentlist"
           component={() => (
-            <StudentList setStudent={setStudent} />
+            <StudentList
+              studentList={studentList}
+              setStudentList={setStudentList}
+              setStudent={setStudent}
+              refresh={refresh}
+              setRefresh={setRefresh}
+            />
           )}
         />
         <PrivateRoute path="/projectform" component={ProjectForm} />
         <Route
           path="/students/:id"
-          render={(props) => (
+          render={() => (
             <SingleStudentPage
               student={student}
-              match={props.match}
             />
           )}
         />
@@ -56,13 +57,5 @@ function App() {
 
   );
 }
-
-App.propTypes = {
-  match: PropTypes.string,
-};
-
-App.defaultProps = {
-  match: '',
-};
 
 export default App;
