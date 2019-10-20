@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import useLocalStorage from './components/hooks/localStorage';
 import PrivateRoute from './components/PrivateRoute';
+import NavBar from './components/NavBar';
 import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
@@ -34,22 +35,36 @@ function App() {
         <PrivateRoute
           path="/studentlist"
           component={() => (
-            <StudentList
-              studentList={studentList}
-              setStudentList={setStudentList}
-              setStudent={setStudent}
-              refresh={refresh}
-              setRefresh={setRefresh}
-            />
+            <>
+              <NavBar />
+              <StudentList
+                studentList={studentList}
+                setStudentList={setStudentList}
+                setStudent={setStudent}
+                refresh={refresh}
+                setRefresh={setRefresh}
+              />
+            </>
           )}
         />
-        <PrivateRoute path="/projectform" component={ProjectForm} />
-        <Route
+        <PrivateRoute
+          path="/projectform"
+          component={() => (
+            <>
+              <NavBar />
+              <ProjectForm />
+            </>
+          )}
+        />
+        <PrivateRoute
           path="/students/:id"
-          render={() => (
-            <SingleStudentPage
-              student={student}
-            />
+          component={() => (
+            <>
+              <NavBar />
+              <SingleStudentPage
+                student={student}
+              />
+            </>
           )}
         />
       </div>

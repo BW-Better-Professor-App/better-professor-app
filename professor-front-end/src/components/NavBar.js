@@ -1,0 +1,57 @@
+import React, { useState } from 'react';
+import {
+  Collapse, DropdownItem, DropdownMenu, DropdownToggle,
+  Nav,
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
+  NavItem,
+  NavLink as StyledLink,
+  UncontrolledDropdown,
+} from 'reactstrap';
+import { NavLink } from 'react-router-dom';
+
+import LogOut from './LogOut';
+
+
+const NavBar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleOpen = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <Navbar color="light" light expand="md">
+      <NavbarBrand>Better Professor</NavbarBrand>
+      <NavbarToggler onClick={toggleOpen} />
+      <Collapse isOpen={isOpen} navbar>
+        <Nav className="ml-auto" navbar>
+          <NavItem>
+            <StyledLink tag="div">
+              <NavLink to="/studentlist">Students</NavLink>
+            </StyledLink>
+          </NavItem>
+
+          <UncontrolledDropdown nav inNavbar>
+            <DropdownToggle nav caret>Projects</DropdownToggle>
+            <DropdownMenu right>
+              <DropdownItem>
+                <NavLink to="/projects">View All</NavLink>
+              </DropdownItem>
+              <DropdownItem>
+                <NavLink to="/projectform">Add Project</NavLink>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+
+          <NavItem>
+            <LogOut />
+          </NavItem>
+        </Nav>
+      </Collapse>
+    </Navbar>
+  );
+};
+
+export default NavBar;
