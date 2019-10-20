@@ -24,7 +24,7 @@ const SignUp = (props) => {
             .then(res=>{
                 console.log(res.data.token)
                 localStorage.setItem('token', res.data.token)
-                props.history.push('/studentlist')
+                props.history.push('/students')
             })
         })
         .catch(err=>{
@@ -46,7 +46,7 @@ const SignUp = (props) => {
                     <Input type='password' name='password' id='password' placeholder='  password' value={user.password} onChange={handleChange} />
                 </FormGroup>
                 <Button>Sign Up</Button>
-            </Form>                
+            </Form>
         </div>
     )
 }

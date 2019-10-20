@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
+import useLocalStorage from './components/hooks/localStorage';
 import PrivateRoute from './components/PrivateRoute';
+import NavBar from './components/NavBar';
 import HomePage from './components/HomePage';
 import LogIn from './components/LogIn';
 import SignUp from './components/SignUp';
@@ -12,10 +13,19 @@ import SingleStudentPage from './components/SingleStudentPage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import ProjectList from './components/ProjectList';
 
 
 function App() {
-  const [student, setStudent] = useState({});
+  /* studentList initialized to non-empty array with null value to indicate it has not
+  yet been altered by the API call and a loading message should be displayed */
+  const [studentList, setStudentList] = useState([null]);
+  // state to control when the studentList should be refreshed to limit redundant API calls
+  const [refresh, setRefresh] = useState(true);
+  /* useLocalStorage allows the student to stay persistent after a browser refresh. Without
+  * this, the student page would show "undefined" on a refresh because it would wipe out
+  * state. */
+  const [student, setStudent] = useLocalStorage('student', {});
 
   return (
     <Router>
@@ -23,20 +33,52 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="/login" component={LogIn} />
         <Route path="/signup" component={SignUp} />
+
         <PrivateRoute
-          path="/studentlist"
+          exact
+          path="/students"
           component={() => (
-            <StudentList setStudent={setStudent} />
+            <>
+              <NavBar />
+              <StudentList
+                studentList={studentList}
+                setStudentList={setStudentList}
+                setStudent={setStudent}
+                refresh={refresh}
+                setRefresh={setRefresh}
+              />
+            </>
           )}
         />
-        <PrivateRoute path="/projectform" component={ProjectForm} />
-        <Route
+        <PrivateRoute
           path="/students/:id"
-          render={(props) => (
-            <SingleStudentPage
-              student={student}
-              match={props.match}
-            />
+          component={() => (
+            <>
+              <NavBar />
+              <SingleStudentPage
+                student={student}
+              />
+            </>
+          )}
+        />
+
+        <PrivateRoute
+          exact
+          path="/projects"
+          component={() => (
+            <>
+              <NavBar />
+              <ProjectList />
+            </>
+          )}
+        />
+        <PrivateRoute
+          path="/projectform"
+          component={() => (
+            <>
+              <NavBar />
+              <ProjectForm />
+            </>
           )}
         />
       </div>
@@ -44,13 +86,5 @@ function App() {
 
   );
 }
-
-App.propTypes = {
-  match: PropTypes.string,
-};
-
-App.defaultProps = {
-  match: '',
-};
 
 export default App;
