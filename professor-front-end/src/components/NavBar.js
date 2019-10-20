@@ -29,7 +29,7 @@ const NavBar = () => {
         <Nav className="ml-auto" navbar>
           <NavItem>
             <StyledLink tag="div">
-              <NavLink to="/studentlist">Students</NavLink>
+              <NavLink to="/students">Students</NavLink>
             </StyledLink>
           </NavItem>
 

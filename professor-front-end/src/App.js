@@ -13,6 +13,7 @@ import SingleStudentPage from './components/SingleStudentPage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import ProjectList from './components/ProjectList';
 
 
 function App() {
@@ -32,8 +33,10 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="/login" component={LogIn} />
         <Route path="/signup" component={SignUp} />
+
         <PrivateRoute
-          path="/studentlist"
+          exact
+          path="/students"
           component={() => (
             <>
               <NavBar />
@@ -48,15 +51,6 @@ function App() {
           )}
         />
         <PrivateRoute
-          path="/projectform"
-          component={() => (
-            <>
-              <NavBar />
-              <ProjectForm />
-            </>
-          )}
-        />
-        <PrivateRoute
           path="/students/:id"
           component={() => (
             <>
@@ -64,6 +58,26 @@ function App() {
               <SingleStudentPage
                 student={student}
               />
+            </>
+          )}
+        />
+
+        <PrivateRoute
+          exact
+          path="/projects"
+          component={() => (
+            <>
+              <NavBar />
+              <ProjectList />
+            </>
+          )}
+        />
+        <PrivateRoute
+          path="/projectform"
+          component={() => (
+            <>
+              <NavBar />
+              <ProjectForm />
             </>
           )}
         />

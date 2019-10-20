@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import { Button, Form, Label, Input, FormGroup } from 'reactstrap';
 
-const LogIn = (props) => { 
+const LogIn = (props) => {
     const [userData, setUserData] = useState({
         username:'',
         password: ''
@@ -22,7 +22,7 @@ const LogIn = (props) => {
         .then(res=>{
             console.log(res)
             localStorage.setItem('token', res.data.token)
-            props.history.push('/studentlist')
+            props.history.push('/students')
         })
     }
     return (
@@ -39,7 +39,7 @@ const LogIn = (props) => {
                     <Input type='password' name='password' id='password' placeholder='  password' value={userData.password} onChange={handleChange} />
                 </FormGroup>
                 <Button>Log In</Button>
-            </Form>                
+            </Form>
         </div>
     )
 }

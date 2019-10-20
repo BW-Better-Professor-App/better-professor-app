@@ -34,19 +34,19 @@ const SingleStudentPage = ({ student }) => (
                 <ListGroupItem>
                   <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
                   <ListGroupItemText>
-                    {new Date(project.project_deadline).toDateString()}
+                    {new Date(project.project_deadline).toLocaleString()}
                   </ListGroupItemText>
                 </ListGroupItem>
                 <ListGroupItem>
                   <ListGroupItemHeading>Feedback Deadline</ListGroupItemHeading>
                   <ListGroupItemText>
-                    {new Date(project.feedback_deadline).toDateString()}
+                    {new Date(project.feedback_deadline).toLocaleString()}
                   </ListGroupItemText>
                 </ListGroupItem>
                 <ListGroupItem>
                   <ListGroupItemHeading>Recommendation Deadline</ListGroupItemHeading>
                   <ListGroupItemText>
-                    {new Date(project.recommendation_deadline).toDateString()}
+                    {new Date(project.recommendation_deadline).toLocaleString()}
                   </ListGroupItemText>
                 </ListGroupItem>
 
