@@ -20,10 +20,12 @@ function App() {
   /* studentList initialized to non-empty array with null value to indicate it has not
   yet been altered by the API call and a loading message should be displayed */
   const [studentList, setStudentList] = useState([null]);
+  const [projectList, setProjectList] = useState([]);
   // state to control when the studentList should be refreshed to limit redundant API calls
-  const [refresh, setRefresh] = useState(true);
-  /* useLocalStorage allows the student to stay persistent after a browser refresh. Without
-  * this, the student page would show "undefined" on a refresh because it would wipe out
+  const [refreshStudents, setRefreshStudents] = useState(true);
+  const [refreshProjects, setRefreshProjects] = useState(true);
+  /* useLocalStorage allows the student to stay persistent after a browser refreshStudents. Without
+  * this, the student page would show "undefined" on a refreshStudents because it would wipe out
   * state. */
   const [student, setStudent] = useLocalStorage('student', {});
 
@@ -44,8 +46,8 @@ function App() {
                 studentList={studentList}
                 setStudentList={setStudentList}
                 setStudent={setStudent}
-                refresh={refresh}
-                setRefresh={setRefresh}
+                refreshStudents={refreshStudents}
+                setRefreshStudents={setRefreshStudents}
               />
             </>
           )}
@@ -68,7 +70,12 @@ function App() {
           component={() => (
             <>
               <NavBar />
-              <ProjectList />
+              <ProjectList
+                projectList={projectList}
+                setProjectList={setProjectList}
+                refreshProjects={refreshProjects}
+                setRefreshProjects={setRefreshProjects}
+              />
             </>
           )}
         />

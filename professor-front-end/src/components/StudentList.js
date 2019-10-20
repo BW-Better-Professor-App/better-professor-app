@@ -18,15 +18,15 @@ import { axiosWithAuth } from './utils/axiosWithAuth';
 
 
 const StudentList = ({
-  setStudent, studentList, setStudentList, refresh, setRefresh,
+  setStudent, studentList, setStudentList, refreshStudents, setRefreshStudents,
 }) => {
   // state to control loading spinner display
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    /* initial state of refresh is true. Every time a page is refreshed, or refresh is
-    reset manually, the studentList will be re-populated */
-    if (refresh) {
+    /* initial state of refreshStudents is true. Every time a page is refreshed, or
+    refreshStudents is reset manually, the studentList will be re-populated */
+    if (refreshStudents) {
       axiosWithAuth()
         .get('/professor-student-info')
         .then((response) => {
@@ -58,10 +58,10 @@ const StudentList = ({
       setIsLoading(false);
     }
 
-    /* Prevent another API call from being made until refresh is true again. This happens
+    /* Prevent another API call from being made until refreshStudents is true again. This happens
     automatically when a page is refreshed, or state is set manually. */
-    setRefresh(false);
-  }, [refresh, setRefresh, setStudentList, studentList]);
+    setRefreshStudents(false);
+  }, [refreshStudents, setRefreshStudents, setStudentList, studentList]);
 
   const handleClick = (student) => {
     setStudent(student);
@@ -153,8 +153,8 @@ StudentList.propTypes = {
     }),
   ).isRequired,
   setStudentList: PropTypes.func.isRequired,
-  refresh: PropTypes.bool.isRequired,
-  setRefresh: PropTypes.func.isRequired,
+  refreshStudents: PropTypes.bool.isRequired,
+  setRefreshStudents: PropTypes.func.isRequired,
 };
 
 export default StudentList;
