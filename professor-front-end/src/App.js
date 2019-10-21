@@ -11,6 +11,7 @@ import StudentList from './components/StudentList';
 import ProjectForm from './components/ProjectForm';
 import SingleStudentPage from './components/SingleStudentPage';
 import MessageForm from './components/MessageForm';
+import StudentForm from './components/StudentForm';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -80,6 +81,7 @@ function App() {
             </>
           )}
         />
+
         <PrivateRoute
           path="/projectform"
           component={() => (
@@ -89,6 +91,15 @@ function App() {
             </>
           )}
         />
+
+    <PrivateRoute
+          path="/studentform"
+          component = {() => (
+            <>
+              <NavBar />
+              <StudentForm />
+            </>
+          )} />
       </div>
     </Router>
 
