@@ -11,7 +11,17 @@ import {
   CardSubtitle,
   CardBody,
   ListGroup,
-  ListGroupItem, Card, Button, CardFooter,
+  ListGroupItem,
+  Card,
+  Button,
+  CardFooter,
+  Form,
+  ModalHeader,
+  ModalBody,
+  FormGroup,
+  Label,
+  Input,
+  ModalFooter, Modal,
 } from 'reactstrap';
 
 import { axiosWithAuth } from './utils/axiosWithAuth';
@@ -20,13 +30,15 @@ import { axiosWithAuth } from './utils/axiosWithAuth';
 const StudentList = ({
   setStudent, studentList, setStudentList, refreshStudents, setRefreshStudents,
 }) => {
+  const [studentToEdit, setStudentToEdit] = useState({});
   // state to control loading spinner display
-    const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     /* initial state of refreshStudents is true. Every time a page is refreshed, or
     refreshStudents is reset manually, the studentList will be re-populated */
-   
+
     if (refreshStudents) {
       axiosWithAuth()
         .get('/professor-student-info')
@@ -63,19 +75,67 @@ const StudentList = ({
     automatically when a page is refreshed, or state is set manually. */
     setRefreshStudents(false);
   }, [refreshStudents, setRefreshStudents, setStudentList, studentList]);
-  const handleDelete = id => {
+
+  const handleDelete = (id) => {
     axiosWithAuth()
-    .delete(`students/${id}`)
-    .then(res=> {
-        console.log(res)
-    })
-    .catch(err => {
-        console.log(err)
-    })
-    console.log(id)
-  }
+      .delete(`students/${id}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(id);
+  };
   const handleClick = (student) => {
     setStudent(student);
+  };
+
+  const toggleModal = () => {
+    setModal(!modal);
+  };
+
+  const handleChange = (e) => {
+    setStudentToEdit({
+      ...studentToEdit,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleEdit = (student) => {
+    setStudentToEdit(student);
+    toggleModal();
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    toggleModal();
+
+    setStudentList(studentList
+      .map((student) => {
+        if (student.student_id === studentToEdit.student_id) {
+          return { ...studentToEdit };
+        }
+        return student;
+      })
+      .sort((a, b) => {
+        if (a.firstname.toUpperCase() < b.firstname.toUpperCase()) {
+          return -1;
+        }
+        if (a.firstname.toUpperCase() > b.firstname.toUpperCase()) {
+          return 1;
+        }
+        return 0;
+      }));
+
+    axiosWithAuth()
+      .put(`/students/${studentToEdit.student_id}`, studentToEdit)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // while the page is loading, render a spinner
@@ -93,6 +153,51 @@ const StudentList = ({
 
   return (
     <Container className="vh-100 justify-content-center">
+      <Modal isOpen={modal} toggle={toggleModal}>
+        <Form onSubmit={handleSubmit}>
+          <ModalHeader toggle={toggleModal}>Edit Student</ModalHeader>
+
+          <ModalBody>
+            <FormGroup>
+              <Label for="firstname">First Name</Label>
+              <Input
+                type="text"
+                name="firstname"
+                id="firstname"
+                value={studentToEdit.firstname}
+                onChange={handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="lastname">Last Name</Label>
+              <Input
+                type="text"
+                name="lastname"
+                id="lastname"
+                value={studentToEdit.lastname}
+                onChange={handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="email">Email</Label>
+              <Input
+                type="email"
+                name="email"
+                id="email"
+                value={studentToEdit.email}
+                onChange={handleChange}
+              />
+            </FormGroup>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button type="submit" color="primary">Save</Button>
+            {' '}
+            <Button type="button" color="secondary" onClick={toggleModal}>Cancel</Button>
+          </ModalFooter>
+        </Form>
+      </Modal>
+
       <Row>
         <Button color="success">Add</Button>
       </Row>
@@ -132,7 +237,8 @@ const StudentList = ({
                 </CardBody>
 
                 <CardFooter>
-                  <Button color="danger" onClick={()=>handleDelete(student.student_id)}>Delete</Button>
+                  <Button onClick={() => { handleEdit(student); }}>Edit</Button>
+                  <Button color="danger" onClick={() => handleDelete(student.student_id)}>Delete</Button>
                 </CardFooter>
               </Card>
             ))}
