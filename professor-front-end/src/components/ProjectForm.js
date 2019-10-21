@@ -24,6 +24,7 @@ const ProjectForm = () => {
         .post('/projects', project)
         .then(res=>{
             console.log(res)
+            console.log(Date.now())
         })
         .catch(err => console.log(err))
         
