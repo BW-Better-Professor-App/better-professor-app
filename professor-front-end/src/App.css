@@ -34,3 +34,14 @@ Button {
   height: 15%;
   width: 30%;
 }
+.message-form {
+  width: 400px;
+  border: 1px solid black;
+  margin: 0 auto
+}
+.message-area {
+  margin: 0 auto;
+  width: 90%;
+  border: 1px solid gray;
+  border-radius: 5px;
+}

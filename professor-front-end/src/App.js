@@ -10,6 +10,7 @@ import SignUp from './components/SignUp';
 import StudentList from './components/StudentList';
 import ProjectForm from './components/ProjectForm';
 import SingleStudentPage from './components/SingleStudentPage';
+import MessageForm from './components/MessageForm';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -35,7 +36,7 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="/login" component={LogIn} />
         <Route path="/signup" component={SignUp} />
-
+        <PrivateRoute path='/message' component={MessageForm}/>
         <PrivateRoute
           exact
           path="/students"
