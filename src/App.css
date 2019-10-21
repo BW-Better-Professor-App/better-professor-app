@@ -45,3 +45,8 @@ Button {
   border: 1px solid gray;
   border-radius: 5px;
 }
+
+.home_page {
+  width: 95%;
+  margin: 4%;
+}
