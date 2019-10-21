@@ -10,6 +10,7 @@ import SignUp from './components/SignUp';
 import StudentList from './components/StudentList';
 import ProjectForm from './components/ProjectForm';
 import SingleStudentPage from './components/SingleStudentPage';
+import StudentForm from './components/StudentForm';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -35,6 +36,7 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="/login" component={LogIn} />
         <Route path="/signup" component={SignUp} />
+
 
         <PrivateRoute
           exact
@@ -79,6 +81,7 @@ function App() {
             </>
           )}
         />
+
         <PrivateRoute
           path="/projectform"
           component={() => (
@@ -88,6 +91,15 @@ function App() {
             </>
           )}
         />
+
+    <PrivateRoute
+          path="/studentform"
+          component = {() => (
+            <>
+              <NavBar />
+              <StudentForm />
+            </>
+          )} />
       </div>
     </Router>
 
