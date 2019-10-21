@@ -36,11 +36,11 @@ const StudentForm = () => {
             <hr />
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
-                    <Label for='first_name'>First Name:  </Label>
+                    <Label for='firstname'>First Name:  </Label>
                     <Input 
                         type='text' 
-                        name='studentName' 
-                        id='student_name' 
+                        name='firstname' 
+                        id='firstname' 
                         placeholder='  first name  '
                         required 
                         onChange={handleChange}
@@ -50,20 +50,20 @@ const StudentForm = () => {
                     <Label for='last_name'>Last Name:</Label>
                     <Input
                         type='text'
-                        name='lastName'
-                        id='last_name'
+                        name='lastname'
+                        id='lastname'
                         placeholder='  last name '
                         required
                         onChange={handleChange}
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for='student_email'>Feedback due by: </Label>
+                    <Label for='email'>Email Address: </Label>
                     <Input
                         type='email'
-                        name='feedbackDeadline'
-                        id='feedback_deadline'
-                        placeholder='date placeholder'
+                        name='email'
+                        id='email'
+                        placeholder='  email address '
                         required
                         onChange={handleChange}
                     />
