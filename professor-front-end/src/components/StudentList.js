@@ -2,26 +2,9 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
-  Container,
-  Row,
-  CardColumns,
-  Spinner,
-  CardHeader,
-  CardTitle,
-  CardSubtitle,
-  CardBody,
-  ListGroup,
-  ListGroupItem,
-  Card,
-  Button,
-  CardFooter,
-  Form,
-  ModalHeader,
-  ModalBody,
-  FormGroup,
-  Label,
-  Input,
-  ModalFooter, Modal,
+  Container, Row, CardColumns, Spinner, CardHeader, CardTitle, CardSubtitle,
+  CardBody, ListGroup, ListGroupItem, Card, Button, CardFooter, Form, ModalHeader,
+  ModalBody, FormGroup, Label, Input, ModalFooter, Modal,
 } from 'reactstrap';
 
 import { axiosWithAuth } from './utils/axiosWithAuth';
@@ -78,6 +61,7 @@ const StudentList = ({
 
   const handleDelete = (id) => {
     axiosWithAuth()
+
       .delete(`students/${id}`)
       .then((res) => {
         console.log(res);
@@ -87,6 +71,7 @@ const StudentList = ({
       });
     console.log(id);
   };
+
   const handleClick = (student) => {
     setStudent(student);
   };

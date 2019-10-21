@@ -25,8 +25,10 @@ const ProjectForm = ({ setRefreshProjects }) => {
         .post('/projects', project)
         .then(res=>{
             console.log(res)
+
             setRefreshProjects(true);
             window.location.href = '/projects';
+
         })
         .catch(err => console.log(err))
     }
