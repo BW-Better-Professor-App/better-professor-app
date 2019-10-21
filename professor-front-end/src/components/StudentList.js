@@ -21,11 +21,12 @@ const StudentList = ({
   setStudent, studentList, setStudentList, refreshStudents, setRefreshStudents,
 }) => {
   // state to control loading spinner display
-  const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     /* initial state of refreshStudents is true. Every time a page is refreshed, or
     refreshStudents is reset manually, the studentList will be re-populated */
+   
     if (refreshStudents) {
       axiosWithAuth()
         .get('/professor-student-info')
@@ -60,13 +61,12 @@ const StudentList = ({
 
     /* Prevent another API call from being made until refreshStudents is true again. This happens
     automatically when a page is refreshed, or state is set manually. */
-    setRefresh(false);
-  }, [refresh, setRefresh, setStudentList, studentList]);
+    setRefreshStudents(false);
+  }, [refreshStudents, setRefreshStudents, setStudentList, studentList]);
   const handleDelete = id => {
     axiosWithAuth()
     .delete(`students/${id}`)
     .then(res=> {
-        console.log(Date())
         console.log(res)
     })
     .catch(err => {
