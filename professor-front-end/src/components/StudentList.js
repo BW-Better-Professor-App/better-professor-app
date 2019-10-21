@@ -21,11 +21,12 @@ const StudentList = ({
   setStudent, studentList, setStudentList, refreshStudents, setRefreshStudents,
 }) => {
   // state to control loading spinner display
-  const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     /* initial state of refreshStudents is true. Every time a page is refreshed, or
     refreshStudents is reset manually, the studentList will be re-populated */
+   
     if (refreshStudents) {
       axiosWithAuth()
         .get('/professor-student-info')
@@ -62,7 +63,17 @@ const StudentList = ({
     automatically when a page is refreshed, or state is set manually. */
     setRefreshStudents(false);
   }, [refreshStudents, setRefreshStudents, setStudentList, studentList]);
-
+  const handleDelete = id => {
+    axiosWithAuth()
+    .delete(`students/${id}`)
+    .then(res=> {
+        console.log(res)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    console.log(id)
+  }
   const handleClick = (student) => {
     setStudent(student);
   };
@@ -121,7 +132,7 @@ const StudentList = ({
                 </CardBody>
 
                 <CardFooter>
-                  <Button color="danger">Delete</Button>
+                  <Button color="danger" onClick={()=>handleDelete(student.student_id)}>Delete</Button>
                 </CardFooter>
               </Card>
             ))}
