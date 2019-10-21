@@ -62,7 +62,18 @@ const StudentList = ({
     automatically when a page is refreshed, or state is set manually. */
     setRefresh(false);
   }, [refresh, setRefresh, setStudentList, studentList]);
-
+  const handleDelete = id => {
+    axiosWithAuth()
+    .delete(`students/${id}`)
+    .then(res=> {
+        console.log(Date())
+        console.log(res)
+    })
+    .catch(err => {
+        console.log(err)
+    })
+    console.log(id)
+  }
   const handleClick = (student) => {
     setStudent(student);
   };
@@ -121,7 +132,7 @@ const StudentList = ({
                 </CardBody>
 
                 <CardFooter>
-                  <Button color="danger">Delete</Button>
+                  <Button color="danger" onClick={()=>handleDelete(student.student_id)}>Delete</Button>
                 </CardFooter>
               </Card>
             ))}
