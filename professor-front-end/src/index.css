@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.studentform {
+  width: 85%;
+  margin: 3% 1.5%;
+  border: 1px solid navy;
+}
