@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 import { Button, Form, Label, Input, FormGroup } from 'reactstrap';
 import {axiosWithAuth} from './utils/axiosWithAuth';
 
-const ProjectForm = () => {
+const ProjectForm = ({ setRefreshProjects }) => {
     const [project, setProject] = useState({
         projectName: '',
         projectDeadline: '2019-12-18T19:55',
@@ -24,9 +25,10 @@ const ProjectForm = () => {
         .post('/projects', project)
         .then(res=>{
             console.log(res)
+            setRefreshProjects(true);
+            window.location.href = '/projects';
         })
         .catch(err => console.log(err))
-        
     }
 
     return (
@@ -37,11 +39,11 @@ const ProjectForm = () => {
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Label for='project_name'>Project Name:  </Label>
-                    <Input 
-                        type='text' 
-                        name='projectName' 
-                        id='project_name' 
-                        placeholder='  create project name' 
+                    <Input
+                        type='text'
+                        name='projectName'
+                        id='project_name'
+                        placeholder='  create project name'
                         onChange={handleChange}
                     />
                 </FormGroup>
@@ -76,9 +78,13 @@ const ProjectForm = () => {
                     />
                 </FormGroup>
                 <Button type='submit'>Add Project</Button>
-            </Form>                
+            </Form>
         </div>
     )
+}
+
+ProjectForm.propTypes = {
+    setRefreshProjects: PropTypes.func.isRequired,
 }
 
 export default ProjectForm;

@@ -84,7 +84,9 @@ function App() {
           component={() => (
             <>
               <NavBar />
-              <ProjectForm />
+              <ProjectForm
+                setRefreshProjects={setRefreshProjects}
+              />
             </>
           )}
         />
