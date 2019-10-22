@@ -70,6 +70,9 @@ const StudentList = ({
         console.log(err);
       });
     console.log(id);
+
+    // refresh studentList
+    setRefreshStudents(true);
   };
 
   const handleClick = (student) => {
