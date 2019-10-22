@@ -13,7 +13,7 @@ import SingleStudentPage from './components/SingleStudentPage';
 import MessageForm from './components/MessageForm';
 import StudentForm from './components/StudentForm';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './styles/main.scss';
 import './App.css';
 import ProjectList from './components/ProjectList';
 
@@ -37,7 +37,7 @@ function App() {
         <Route exact path="/" component={HomePage} />
         <Route path="/login" component={LogIn} />
         <Route path="/signup" component={SignUp} />
-        <PrivateRoute path='/message' component={MessageForm}/>
+        <PrivateRoute path="/message" component={MessageForm} />
         <PrivateRoute
           exact
           path="/students"
@@ -94,14 +94,15 @@ function App() {
           )}
         />
 
-    <PrivateRoute
+        <PrivateRoute
           path="/studentform"
-          component = {() => (
+          component={() => (
             <>
               <NavBar />
               <StudentForm />
             </>
-          )} />
+          )}
+        />
       </div>
     </Router>
 
