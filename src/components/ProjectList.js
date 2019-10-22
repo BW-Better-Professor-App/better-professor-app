@@ -18,10 +18,14 @@ const ProjectList = ({
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
+    /* initial state of refreshProjects is true. Every time a page is refreshed, or
+     refreshProjects is reset manually, the studentList will be re-populated */
+
     if (refreshProjects) {
       axiosWithAuth()
         .get('/projects')
         .then((response) => {
+          // sort the projects by name before rendering
           response.data.sort((a, b) => {
             if (a.project_name.toUpperCase() < b.project_name.toUpperCase()) {
               return -1;
@@ -43,6 +47,8 @@ const ProjectList = ({
       setIsLoading(false);
     }
 
+    /* Prevent another API call from being made until refreshProjects is true again. This happens
+     automatically when a page is refreshed, or state is set manually. */
     setRefreshProjects(false);
   }, [projectList.length, refreshProjects, setProjectList, setRefreshProjects]);
 
@@ -50,6 +56,7 @@ const ProjectList = ({
     setModal(!modal);
   };
 
+  // set the project to be edited and open the editing panel
   const handleEdit = (project) => {
     setProjectToEdit(project);
     toggleModal();
@@ -64,6 +71,8 @@ const ProjectList = ({
       .catch((error) => {
         console.log(error);
       });
+
+    // refresh projectList
     setRefreshProjects(true);
   };
 
@@ -76,8 +85,11 @@ const ProjectList = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // close editing panel
     toggleModal();
 
+    /* add project to projectList so we don't have to perform another GET request
+    to see changes */
     setProjectList(projectList
       .map((project) => {
         if (project.id === projectToEdit.id) {
@@ -98,7 +110,11 @@ const ProjectList = ({
     axiosWithAuth()
       .put(`/projects/${projectToEdit.id}`, {
         id: projectToEdit.id,
+        /* Server will only accept keys in camelCase even though it provides them with
+        * underscores */
         projectName: projectToEdit.project_name,
+        /* Dates received from server are in ISOString format. We need to convert the
+        * date to a UTCString to store it in a locale-agnostic format. */
         projectDeadline: new Date(projectToEdit.project_deadline).toUTCString(),
         feedbackDeadline: new Date(projectToEdit.feedback_deadline).toUTCString(),
         recommendationDeadline: new Date(projectToEdit.recommendation_deadline).toUTCString(),
@@ -111,6 +127,8 @@ const ProjectList = ({
       });
   };
 
+  /* The server provides us with dates in an ISOString but we need to convert it to
+  * the user's timezone before display. */
   const toLocaleISOString = (date) => {
     function pad(n) { return (`0${n}`).substr(-2); }
 
@@ -124,6 +142,8 @@ const ProjectList = ({
     return `${day}T${time}`;
   };
 
+  /* By default, toLocaleString includes seconds, which we do not want to display. Using
+  * these configuration options will remove them. */
   const dateDisplayOptions = {
     year: 'numeric',
     month: 'numeric',
@@ -167,6 +187,10 @@ const ProjectList = ({
                 type="datetime-local"
                 name="project_deadline"
                 id="project_deadline"
+                {/* If there is a date, we must use our toLocaleISOString function to
+                 * convert it to the user's timezone and slice off the seconds.
+                 * defaultValue is required in place of value to prepopulate the date
+                 * in the edit field. */}
                 defaultValue={projectToEdit.project_deadline
                   ? toLocaleISOString(new Date(projectToEdit.project_deadline))
                   : projectToEdit.project_deadline}
@@ -219,6 +243,8 @@ const ProjectList = ({
                 <ListGroupItem>
                   <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
                   <ListGroupItemText>
+                    {/* Because the date is stored as a UTCString on the server, we must
+                    * convert it to a localeString so the timezone matches our user's. */}
                     {new Date(project.project_deadline).toLocaleString([], dateDisplayOptions)}
                   </ListGroupItemText>
                 </ListGroupItem>
