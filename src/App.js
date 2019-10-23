@@ -99,7 +99,10 @@ function App() {
           component={() => (
             <>
               <NavBar />
-              <StudentForm />
+              <StudentForm 
+              studentList={studentList}
+              setStudentList={setStudentList}
+              />
             </>
           )}
         />

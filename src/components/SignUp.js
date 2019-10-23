@@ -5,7 +5,9 @@ import { Button, Form, Label, Input, FormGroup } from 'reactstrap';
 const SignUp = (props) => {
     const [user, setUser]= useState({
         username: '',
-        password: ''
+        password: '',
+        first_name: '',
+        last_name: ''
     })
 
     const handleChange = e =>{
@@ -17,10 +19,10 @@ const SignUp = (props) => {
     const handleSubmit = e => {
         e.preventDefault();
         console.log(user)
-        axios.post(`https://betterprofessor.herokuapp.com/api/register`, user)
+        axios.post(`https://better-professor-backend.herokuapp.com/users/register`, user)
         .then(res=>{
             console.log(res)
-            axios.post(`https://betterprofessor.herokuapp.com/api/login`, user)
+            axios.post(`https://better-professor-backend.herokuapp.com/users/login`, user)
             .then(res=>{
                 console.log(res.data.token)
                 localStorage.setItem('token', res.data.token)
@@ -44,6 +46,14 @@ const SignUp = (props) => {
                 <FormGroup>
                     <Label for='password'>Password:  </Label>
                     <Input type='password' name='password' id='password' placeholder='  password' value={user.password} onChange={handleChange} />
+                </FormGroup>
+                <FormGroup>
+                    <Label for='first_name'>First Name:  </Label>
+                    <Input type='text' name='first_name' id='first_name' placeholder='  first name' value={user.first_name} onChange={handleChange} />
+                </FormGroup>
+                <FormGroup>
+                    <Label for='last_name'>Last Name:  </Label>
+                    <Input type='text' name='last_name' id='last_name' placeholder='  Last Name' value={user.last_name} onChange={handleChange} />
                 </FormGroup>
                 <Button>Sign Up</Button>
             </Form>

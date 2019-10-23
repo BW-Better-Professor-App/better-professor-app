@@ -36,7 +36,8 @@ Button {
 }
 .message-form {
   width: 400px;
-  border: 1px solid black;
+  border: 1px solid lightgray;
+  border-radius: 5px;
   margin: 0 auto
 }
 .message-area {

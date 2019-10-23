@@ -187,10 +187,12 @@ const ProjectList = ({
                 type="datetime-local"
                 name="project_deadline"
                 id="project_deadline"
+
                 // {/* If there is a date, we must use our toLocaleISOString function to
                 //  * convert it to the user's timezone and slice off the seconds.
                 //  * defaultValue is required in place of value to prepopulate the date
                 //  * in the edit field. */}
+
                 defaultValue={projectToEdit.project_deadline
                   ? toLocaleISOString(new Date(projectToEdit.project_deadline))
                   : projectToEdit.project_deadline}
