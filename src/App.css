@@ -41,7 +41,8 @@ Button {
   width: 400px;
   border: 1px solid lightgray;
   border-radius: 5px;
-  margin: 0 auto
+  margin: 0 auto;
+  background: #d1bfa7;
 }
 .message-area {
   margin: 0 auto;
@@ -84,6 +85,7 @@ Input {
     10px 10px 15px rgba(0,0,0,0.5),
     -1px -1px 30px rgba(0,0,0,0.2)
   ;
+  background: 8e8e90;
 }
 
 button, Button {
@@ -104,17 +106,31 @@ button, Button {
 h2 {
   font-weight: 900;
   font-size: 2.8rem;
+  color: #49494b;
 }
 
 .card {
   border: 1.5px solid black;
   border-radius: 15px;
-  background: #ecf0f1;
+  background:#f8f3f2;
   box-shadow: 
     2px 2px 5px rgba(0,0,0,0.5),
     10px 10px 15px rgba(0,0,0,0.5),
     -1px -1px 30px rgba(0,0,0,0.2)
 }
+.jumbotron{
+  background: #d1bfa7;
+}
+
+.btn {
+  background: #bd8c7d;
+}
+
+a {
+  color: #bd8c7d
+}
+
+
 
 
 
