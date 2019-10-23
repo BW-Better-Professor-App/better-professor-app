@@ -11,20 +11,20 @@ import { axiosWithAuth } from './utils/axiosWithAuth';
 
 
 const StudentList = ({
-  setStudent, studentList, setStudentList, refreshStudents, setRefreshStudents,
+  setStudent, studentList, setStudentList, refreshStudents, setRefreshStudents
 }) => {
   const [studentToEdit, setStudentToEdit] = useState({});
   // state to control loading spinner display
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
-
   useEffect(() => {
     /* initial state of refreshStudents is true. Every time a page is refreshed, or
     refreshStudents is reset manually, the studentList will be re-populated */
 
     if (refreshStudents) {
+      const id = localStorage.getItem('id')
       axiosWithAuth()
-        .get('/professor-student-info')
+        .get(`/students/user/${id}`)
         .then((response) => {
           // sort the students by first name before rendering list
           response.data.sort((a, b) => {
@@ -187,7 +187,7 @@ const StudentList = ({
       </Modal>
 
       <Row>
-        <Button color="success">Add</Button>
+        <Button color="success" onClick={()=> window.location.href = '/studentform'}>Add</Button>
       </Row>
 
       {/* Display cards if results are returned from API call. Otherwise, indicate
