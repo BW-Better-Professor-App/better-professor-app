@@ -12,6 +12,7 @@ import {
 import { NavLink } from 'react-router-dom';
 
 import LogOut from './LogOut';
+import logo from './logo.png';
 
 
 const NavBar = () => {
@@ -23,7 +24,9 @@ const NavBar = () => {
 
   return (
     <Navbar color="light" light expand="md">
-      <NavbarBrand>Better Professor</NavbarBrand>
+      <NavbarBrand>
+        <img className='App-logo' src={logo} alt='better professor logo' />
+      </NavbarBrand>
       <NavbarToggler onClick={toggleOpen} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto" navbar>
