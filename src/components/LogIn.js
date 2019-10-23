@@ -18,11 +18,13 @@ const LogIn = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        axios.post(`https://betterprofessor.herokuapp.com/api/login`, userData)
+        axios.post(`https://better-professor-backend.herokuapp.com/users/login`, userData)
         .then(res=>{
             console.log(res)
             localStorage.setItem('token', res.data.token)
-            props.history.push('/students')
+            localStorage.setItem('id', res.data.id )
+
+            window.location.href = '/students'
         })
     }
     return (

@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import { Button, Form, Label, Input, FormGroup } from 'reactstrap';
 import {axiosWithAuth} from './utils/axiosWithAuth';
 
-const StudentForm = () => {
+const StudentForm = ({setStudentList, studentList}) => {
     const [student, setStudent] = useState({
-        firstName: '',
-        lastName: '',
+        firstname: '',
+        lastname: '',
         email: '',
         })
 
@@ -23,7 +23,13 @@ const StudentForm = () => {
         axiosWithAuth()
         .post('/students', student)
         .then(res=>{
+            console.log(studentList)
             console.log(res)
+            // axiosWithAuth()
+            // .post(`/professor-student-info/students`, student)
+            // .then(res=>{
+            //     console.log(res)
+            // })
         })
         .catch(err => console.log(err))
         
