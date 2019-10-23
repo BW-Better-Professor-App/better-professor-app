@@ -26,12 +26,13 @@ const StudentList = ({
       axiosWithAuth()
         .get(`/students/user/${id}`)
         .then((response) => {
+          console.log(response)
           // sort the students by first name before rendering list
           response.data.sort((a, b) => {
-            if (a.firstname < b.firstname) {
+            if (a.name < b.name) {
               return -1;
             }
-            if (a.firstname > b.firstname) {
+            if (a.name > b.name) {
               return 1;
             }
             return 0;
@@ -101,23 +102,24 @@ const StudentList = ({
 
     setStudentList(studentList
       .map((student) => {
-        if (student.student_id === studentToEdit.student_id) {
+        if (student.id === studentToEdit.id) {
           return { ...studentToEdit };
         }
         return student;
       })
-      .sort((a, b) => {
-        if (a.firstname.toUpperCase() < b.firstname.toUpperCase()) {
-          return -1;
-        }
-        if (a.firstname.toUpperCase() > b.firstname.toUpperCase()) {
-          return 1;
-        }
-        return 0;
-      }));
+      // .sort((a, b) => {
+      //   if (a.name.toUpperCase() < b.name.toUpperCase()) {
+      //     return -1;
+      //   }
+      //   if (a.name.toUpperCase() > b.name.toUpperCase()) {
+      //     return 1;
+      //   }
+      //   return 0;
+      // })
+      );
 
     axiosWithAuth()
-      .put(`/students/${studentToEdit.student_id}`, studentToEdit)
+      .put(`/students/${studentToEdit.id}`, studentToEdit)
       .then((response) => {
         console.log(response);
       })
@@ -147,32 +149,22 @@ const StudentList = ({
 
           <ModalBody>
             <FormGroup>
-              <Label for="firstname">First Name</Label>
+              <Label for="name">Name</Label>
               <Input
                 type="text"
-                name="firstname"
-                id="firstname"
-                value={studentToEdit.firstname}
+                name="name"
+                id="name"
+                value={studentToEdit.name}
                 onChange={handleChange}
               />
             </FormGroup>
             <FormGroup>
-              <Label for="lastname">Last Name</Label>
+              <Label for="major">major</Label>
               <Input
                 type="text"
-                name="lastname"
-                id="lastname"
-                value={studentToEdit.lastname}
-                onChange={handleChange}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="email">Email</Label>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                value={studentToEdit.email}
+                name="major"
+                id="major"
+                value={studentToEdit.major}
                 onChange={handleChange}
               />
             </FormGroup>
@@ -196,37 +188,24 @@ const StudentList = ({
         <Row>
           <CardColumns>
             {studentList.map((student) => (
-              <Card key={student.student_id}>
+              <Card key={student.id}>
                 <CardHeader>
                   <Link
-                    to={`/students/${student.student_id}`}
+                    to={`/students/${student.id}`}
                     value={student}
                     onClick={() => { handleClick(student); }}
                     onKeyPress={() => { handleClick(student); }}
                     role="link"
                     tabIndex="0"
                   >
-                    <CardTitle tag="h2">{`${student.firstname} ${student.lastname}`}</CardTitle>
+                    <CardTitle tag="h2">{`${student.student_name}`}</CardTitle>
                   </Link>
-                  <CardSubtitle><p>{student.email}</p></CardSubtitle>
+                  <CardSubtitle><p>{student.major}</p></CardSubtitle>
                 </CardHeader>
-
-                <CardBody>
-                  <h3>Projects</h3>
-                  <ListGroup flush>
-                    {student.project ? student.project.map((project) => (
-                      <ListGroupItem
-                        key={`${student.student_id}-${project.project_id}-${student.project.indexOf(project)}`}
-                      >
-                        <h4>{project.project_name}</h4>
-                      </ListGroupItem>
-                    )) : <p>No projects assigned</p>}
-                  </ListGroup>
-                </CardBody>
 
                 <CardFooter>
                   <Button onClick={() => { handleEdit(student); }}>Edit</Button>
-                  <Button color="danger" onClick={() => handleDelete(student.student_id)}>Delete</Button>
+                  <Button color="danger" onClick={() => handleDelete(student.id)}>Delete</Button>
                 </CardFooter>
               </Card>
             ))}
@@ -241,20 +220,10 @@ StudentList.propTypes = {
   setStudent: PropTypes.func.isRequired,
   studentList: PropTypes.arrayOf(
     PropTypes.shape({
-      firstname: PropTypes.string,
-      lastname: PropTypes.string,
-      email: PropTypes.string,
-      project: PropTypes.arrayOf(
-        PropTypes.shape({
-          project_id: PropTypes.number,
-          project_name: PropTypes.string,
-          project_deadline: PropTypes.date,
-          feedback_deadline: PropTypes.date,
-          recommendation_deadline: PropTypes.date,
-          studentMessage: PropTypes.string,
-          professorMessage: PropTypes.string,
-        }),
-      ),
+      id: PropTypes.number,
+      name: PropTypes.string,
+      major: PropTypes.string,
+      user_id: PropTypes.number
     }),
   ).isRequired,
   setStudentList: PropTypes.func.isRequired,

@@ -25,7 +25,13 @@ const SingleStudentPage = ({ student }) => {
     message: ''
   });
   const [allProjects, setAllProjects] = useState([])
-  const [projectAdded, setProjectAdded] = useState()
+  const [projectAdded, setProjectAdded] = useState({
+    project_name: '',
+    deadline: '',
+    deadline_type: '',
+    description: '',
+    student_id: student.id
+  })
 
 const handleChange = e => {
     setForm({
@@ -35,7 +41,7 @@ const handleChange = e => {
 }
 useEffect(()=>{
   axiosWithAuth()
-  .get('/projects')
+  .get(`/projects/students/${student.id}`)
   .then(res=>{
     console.log(res)
     setAllProjects(res.data)
@@ -72,17 +78,20 @@ const handleDelete = (id) => {
 }
 
 const handleAddProject = e => {
-  setProjectAdded(e.target.value)
+  setProjectAdded({
+    ...projectAdded,
+    [e.target.name] : e.target.value
+  })
+  console.log(projectAdded)
 }
 
 const handleSubmitProject = e => {
   axiosWithAuth()
-  .post(`/professor-student-info/${student.id}/projects`, projectAdded )
+  .post(`/projects`, projectAdded )
   .then(res=>{
-    setProjectAdded();
+    console.log(res)
   })
   .catch(err=>{
-    setProjectAdded();
     console.log(err)
   })
   toggleModal()
@@ -97,11 +106,10 @@ const handleSubmitProject = e => {
             <Form onSubmit={handleSubmitProject}>
               <FormGroup>
                 <Label>Select a Project</Label>
-                <Input type='select' name='projects' onChange={handleAddProject}>
-                  {allProjects.map(project => (
-                    <option value={project.id} >{project.project_name}</option>
-                  ))}
-                </Input>
+                <Input type='text' name='project_name' value={projectAdded.project_name} onChange={handleAddProject} placeholder='project name'/>
+                <Input type='date' name='deadline' value={projectAdded.deadline} onChange={handleAddProject}/>
+                <Input type='text' name='deadline_type' value={projectAdded.deadline_type} onChange={handleAddProject} placeholder='deadline type'/>
+                <Input type='text' name='description' value={projectAdded.description} onChange={handleAddProject} placeholder='description'/>
               </FormGroup>
               <Button>Add This Project</Button>
             </Form>
@@ -109,20 +117,19 @@ const handleSubmitProject = e => {
         </Form>
       </Modal>
     <Jumbotron>
-      <h1>{`${student.firstname} ${student.lastname}`}</h1>
-      <p>{student.email}</p>
-      <Button color="secondary">Edit</Button>
+      <h1>{`${student.student_name}`}</h1>
+      <h3>{student.major}</h3>
     </Jumbotron>
 
     <Container>
       <ListGroup>
         <Button color="success" className="w-25 align-self-center" onClick={toggleModal}>Add Project</Button>
-        {student.project ? student.project.map(project => (
-          <Card key={`${project.project_id}-${student.project.indexOf(project)}`}>
+        {allProjects ? allProjects.map(project => (
+          <Card key={`${project.id}`}>
             <CardHeader>
               <CardTitle tag="h2">{project.project_name}</CardTitle>
               
-              <Button color="danger" onClick={()=>{handleDelete(project.project_id)}}>Delete</Button>
+              <Button color="danger" onClick={()=>{handleDelete(project.id)}}>Delete</Button>
             </CardHeader>
 
             <CardBody>
@@ -130,31 +137,14 @@ const handleSubmitProject = e => {
                 <ListGroupItem>
                   <ListGroupItemHeading>Project Deadline</ListGroupItemHeading>
                   <ListGroupItemText>
-                    {new Date(project.project_deadline).toLocaleString()}
+                    {new Date(project.deadline).toLocaleString()}
                   </ListGroupItemText>
+                  <ListGroupItemHeading>Deadline Type</ListGroupItemHeading>
+                  <ListGroupItemText>{project.deadline_type===''?project.deadline_type : 'none'}</ListGroupItemText>
+                  <ListGroupItemHeading>Description</ListGroupItemHeading>
+                  <ListGroupItemText>{project.description===''?project.description:'none'}</ListGroupItemText>
                 </ListGroupItem>
-                <ListGroupItem>
-                  <ListGroupItemHeading>Feedback Deadline</ListGroupItemHeading>
-                  <ListGroupItemText>
-                    {new Date(project.feedback_deadline).toLocaleString()}
-                  </ListGroupItemText>
-                </ListGroupItem>
-                <ListGroupItem>
-                  <ListGroupItemHeading>Recommendation Deadline</ListGroupItemHeading>
-                  <ListGroupItemText>
-                    {new Date(project.recommendation_deadline).toLocaleString()}
-                  </ListGroupItemText>
-                </ListGroupItem>
-
-                <ListGroupItem>
-                  <ListGroupItemHeading>Student Message</ListGroupItemHeading>
-                  <ListGroupItemText>{project.studentMessage}</ListGroupItemText>
-                </ListGroupItem>
-
-                <ListGroupItem>
-                  <ListGroupItemHeading>Professor Message</ListGroupItemHeading>
-                  <ListGroupItemText>{project.professorMessage}</ListGroupItemText>
-                </ListGroupItem>
+                
               </ListGroup>
               <div className='Message-form'>
             <h2>Message Form</h2>

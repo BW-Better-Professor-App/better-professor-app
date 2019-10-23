@@ -3,10 +3,13 @@ import { Button, Form, Label, Input, FormGroup } from 'reactstrap';
 import {axiosWithAuth} from './utils/axiosWithAuth';
 
 const StudentForm = ({setStudentList, studentList}) => {
+    const idString = localStorage.getItem('id')
+    const userId = parseInt(idString)
+    
     const [student, setStudent] = useState({
-        firstname: '',
-        lastname: '',
-        email: '',
+        student_name: '',
+        major: '',
+        user_id: userId
         })
 
     const handleChange = e => {
@@ -21,15 +24,11 @@ const StudentForm = ({setStudentList, studentList}) => {
         e.preventDefault();
         console.log(student)
         axiosWithAuth()
-        .post('/students', student)
+        .post(`/students`, student)
         .then(res=>{
             console.log(studentList)
             console.log(res)
-            // axiosWithAuth()
-            // .post(`/professor-student-info/students`, student)
-            // .then(res=>{
-            //     console.log(res)
-            // })
+            window.location.href = '/students'
         })
         .catch(err => console.log(err))
         
@@ -42,34 +41,23 @@ const StudentForm = ({setStudentList, studentList}) => {
             <hr />
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
-                    <Label for='firstname'>First Name:  </Label>
+                    <Label for='name'>Name:  </Label>
                     <Input 
                         type='text' 
-                        name='firstname' 
-                        id='firstname' 
-                        placeholder='  first name  '
+                        name='student_name' 
+                        id='name' 
+                        placeholder='  name  '
                         required 
                         onChange={handleChange}
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for='last_name'>Last Name:</Label>
+                    <Label for='major'>major:</Label>
                     <Input
                         type='text'
-                        name='lastname'
-                        id='lastname'
-                        placeholder='  last name '
-                        required
-                        onChange={handleChange}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for='email'>Email Address: </Label>
-                    <Input
-                        type='email'
-                        name='email'
-                        id='email'
-                        placeholder='  email address '
+                        name='major'
+                        id='major'
+                        placeholder='  major '
                         required
                         onChange={handleChange}
                     />
