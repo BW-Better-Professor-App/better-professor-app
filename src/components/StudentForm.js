@@ -39,7 +39,7 @@ const StudentForm = ({setStudentList, studentList}) => {
         <div className='studentForm'>
             <h2>Add a Student</h2>
             <p>Enter the student's information below.</p>
-            <hr />
+            <hr className='hr'/>
             <Form onSubmit={handleSubmit}>
                 <FormGroup>
                     <Label for='firstname'>First Name:  </Label>
