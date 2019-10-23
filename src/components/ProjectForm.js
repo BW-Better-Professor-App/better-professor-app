@@ -58,76 +58,83 @@ const ProjectForm = ({ studentList }) => {
     });
   };
 
+  if (studentList[0] !== null) {
+    return (
+      <Container className="ProjectForm">
+        <h2>Add a Project</h2>
+        <p>Enter the details of the project below to add.</p>
+        <hr />
+        <Form onSubmit={handleSubmit}>
+          <FormGroup>
+            <Label for="name">Project Name</Label>
+            <Input
+              type="text"
+              name="name"
+              id="name"
+              placeholder="Project name"
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="description">Project Description</Label>
+            <Input
+              type="textarea"
+              name="description"
+              id="description"
+              placeholder="Description"
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="deadline">Project Due By</Label>
+            <Input
+              type="date"
+              name="deadline"
+              id="deadline"
+              placeholder="date"
+              onChange={handleChange}
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="deadlineType">Deadline Type</Label>
+            <Input
+              type="select"
+              name="deadlineType"
+              id="deadlineType"
+              onChange={handleChange}
+            >
+              <option value="Research Paper">Research Paper</option>
+              <option value="Test">Test</option>
+              <option value="Group Assignment">Group Assignment</option>
+              <option value="Thesis">Thesis</option>
+            </Input>
+          </FormGroup>
+          <FormGroup>
+            <Label for="assignedStudents">Assigned Students</Label>
+            <Input
+              type="select"
+              name="assignedStudents"
+              id="assignedStudents"
+              onChange={handleChange}
+              multiple
+            >
+              {studentList.sort((a, b) => {
+                if (a.student < b.student) { return -1; }
+                if (a.student > b.student) { return 1; }
+                return 0;
+              }).map((student) => (
+                <option key={student.id} value={student.id}>{student.student}</option>
+              ))}
+            </Input>
+          </FormGroup>
+          <Button type="submit">Add Project</Button>
+        </Form>
+      </Container>
+    );
+  }
   return (
-    <Container className="ProjectForm">
-      <h2>Add a Project</h2>
-      <p>Enter the details of the project below to add.</p>
-      <hr />
-      <Form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label for="name">Project Name</Label>
-          <Input
-            type="text"
-            name="name"
-            id="name"
-            placeholder="Project name"
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="description">Project Description</Label>
-          <Input
-            type="textarea"
-            name="description"
-            id="description"
-            placeholder="Description"
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="deadline">Project Due By</Label>
-          <Input
-            type="date"
-            name="deadline"
-            id="deadline"
-            placeholder="date"
-            onChange={handleChange}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="deadlineType">Deadline Type</Label>
-          <Input
-            type="select"
-            name="deadlineType"
-            id="deadlineType"
-            onChange={handleChange}
-          >
-            <option value="Research Paper">Research Paper</option>
-            <option value="Test">Test</option>
-            <option value="Group Assignment">Group Assignment</option>
-            <option value="Thesis">Thesis</option>
-          </Input>
-        </FormGroup>
-        <FormGroup>
-          <Label for="assignedStudents">Assigned Students</Label>
-          <Input
-            type="select"
-            name="assignedStudents"
-            id="assignedStudents"
-            onChange={handleChange}
-            multiple
-          >
-            {studentList.sort((a, b) => {
-              if (a.student < b.student) { return -1; }
-              if (a.student > b.student) { return 1; }
-              return 0;
-            }).map((student) => (
-              <option key={student.id} value={student.id}>{student.student}</option>
-            ))}
-          </Input>
-        </FormGroup>
-        <Button type="submit">Add Project</Button>
-      </Form>
+    <Container>
+      <h1>Please add a student before assigning a project.</h1>
     </Container>
   );
 };
