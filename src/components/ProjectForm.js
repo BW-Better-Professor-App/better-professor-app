@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button, Form, Label, Input, FormGroup, Container,
@@ -8,10 +8,6 @@ import { axiosWithAuth } from './utils/axiosWithAuth';
 
 
 const ProjectForm = ({ studentList }) => {
-  useEffect(() => {
-    console.log(studentList);
-  }, [studentList]);
-
   const [project, setProject] = useState({
     assignedStudents: [0],
     name: '',
@@ -147,10 +143,18 @@ ProjectForm.propTypes = {
   studentList: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      student: PropTypes.string.isRequired,
-      major: PropTypes.string.isRequired,
+      student_name: PropTypes.string.isRequired,
+      major: PropTypes.string,
     }),
-  ).isRequired,
+  ),
+};
+
+ProjectForm.defaultProps = {
+  studentList: [
+    {
+      major: '',
+    },
+  ],
 };
 
 export default ProjectForm;
