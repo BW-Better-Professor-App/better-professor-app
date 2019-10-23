@@ -25,6 +25,7 @@ const ProjectList = ({
       axiosWithAuth()
         .get('/projects')
         .then((response) => {
+          console.log(response)
           // sort the projects by name before rendering
           response.data.sort((a, b) => {
             if (a.project_name.toUpperCase() < b.project_name.toUpperCase()) {
