@@ -88,7 +88,7 @@ function App() {
             <>
               <NavBar />
               <ProjectForm
-                setRefreshProjects={setRefreshProjects}
+                studentList={studentList}
               />
             </>
           )}
@@ -100,8 +100,8 @@ function App() {
             <>
               <NavBar />
               <StudentForm
-              studentList={studentList}
-              setStudentList={setStudentList}
+                studentList={studentList}
+                setStudentList={setStudentList}
               />
             </>
           )}
