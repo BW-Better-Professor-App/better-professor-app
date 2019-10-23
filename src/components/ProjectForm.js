@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button, Form, Label, Input, FormGroup, Container,
@@ -8,6 +8,10 @@ import { axiosWithAuth } from './utils/axiosWithAuth';
 
 
 const ProjectForm = ({ studentList }) => {
+  useEffect(() => {
+    console.log(studentList);
+  }, [studentList]);
+
   const [project, setProject] = useState({
     assignedStudents: [0],
     name: '',
@@ -119,11 +123,11 @@ const ProjectForm = ({ studentList }) => {
               multiple
             >
               {studentList.sort((a, b) => {
-                if (a.student < b.student) { return -1; }
-                if (a.student > b.student) { return 1; }
+                if (a.student_name < b.student_name) { return -1; }
+                if (a.student_name > b.student_name) { return 1; }
                 return 0;
               }).map((student) => (
-                <option key={student.id} value={student.id}>{student.student}</option>
+                <option key={student.id} value={student.id}>{student.student_name}</option>
               ))}
             </Input>
           </FormGroup>
