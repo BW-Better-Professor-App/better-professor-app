@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import {
-  Collapse, DropdownItem, DropdownMenu, DropdownToggle,
+  Collapse,
   Nav,
   Navbar,
   NavbarBrand,
   NavbarToggler,
   NavItem,
   NavLink as StyledLink,
-  UncontrolledDropdown,
 } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
@@ -25,7 +24,7 @@ const NavBar = () => {
   return (
     <Navbar color="light" light expand="md">
       <NavbarBrand>
-        <img className='App-logo' src={logo} alt='better professor logo' />
+        <img className="App-logo" src={logo} alt="better professor logo" />
       </NavbarBrand>
       <NavbarToggler onClick={toggleOpen} />
       <Collapse isOpen={isOpen} navbar>
@@ -36,17 +35,11 @@ const NavBar = () => {
             </StyledLink>
           </NavItem>
 
-          <UncontrolledDropdown nav inNavbar>
-            <DropdownToggle nav caret>Projects</DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem>
-                <NavLink to="/projects">View All</NavLink>
-              </DropdownItem>
-              <DropdownItem>
-                <NavLink to="/projectform">Add Project</NavLink>
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
+          <NavItem>
+            <StyledLink tag="div">
+              <NavLink to="/projectform">Add Project</NavLink>
+            </StyledLink>
+          </NavItem>
 
           <NavItem>
             <LogOut />
