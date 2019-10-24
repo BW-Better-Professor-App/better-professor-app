@@ -73,6 +73,10 @@ Button {
     width: 95%;
     margin: 1.5% auto;
   }
+
+  p{
+    font-size: 1.6rem;
+  }
 }
 
 .hr {
