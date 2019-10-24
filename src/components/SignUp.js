@@ -53,7 +53,7 @@ const SignUp = (props) => {
                 </FormGroup>
                 <FormGroup>
                     <Label for='last_name'>Last Name:  </Label>
-                    <Input type='text' name='last_name' id='last_name' placeholder='  Last Name' value={user.last_name} onChange={handleChange} />
+                    <Input type='text' name='last_name' id='last_name' placeholder='  last Name' value={user.last_name} onChange={handleChange} />
                 </FormGroup>
                 <Button>Sign Up</Button>
             </Form>
