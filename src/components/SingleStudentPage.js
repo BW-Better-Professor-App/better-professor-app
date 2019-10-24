@@ -50,6 +50,12 @@ useEffect(()=>{
 },[setModal])
 //message stuff
 const handleChange = e => {
+  if (e.target.name === 'deadline'){
+    setForm({
+      ...form,
+      date: e.target.value
+    })
+  }
     setForm({
         ...form,
         [e.target.name]: e.target.value
@@ -61,15 +67,9 @@ const handleSubmit = e => {
   .post(`/messages`, form)
   .then(res=>{
     console.log(res)
-    setMessageList(res.data)
+    setMessageList([...messageList, res.data[0]])
   })
-  setForm({
-      date: '',
-      message: '',
-      student_id: student.id
-    })
 }
-
 //addd project stuff
 const toggleModal = () => {
   setModal(!modal);
@@ -79,14 +79,12 @@ const handleAddProject = e => {
     ...projectAdded,
     [e.target.name] : e.target.value
   })
-  console.log(projectAdded)
 }
 const handleSubmitProject = e => {
   axiosWithAuth()
   .post(`/projects`, projectAdded )
   .then(res=>{
-    console.log(res)
-    window.location.reload()
+    setAllProjects([...allProjects, projectAdded])
   })
   .catch(err=>{
     console.log(err)
@@ -98,8 +96,7 @@ const handleDelete = (id) => {
   axiosWithAuth()
   .delete(`/projects/${id}`)
   .then(res=>{
-    console.log(res)
-    window.location.reload();
+    setAllProjects(allProjects.filter(proj => proj.id !== id))
   })
 }
 
@@ -130,6 +127,28 @@ const handleDelete = (id) => {
     <Container>
       <ListGroup>
         <Button color="success" className="w-25 align-self-center" onClick={toggleModal}>Add Project</Button>
+        <ListGroup>
+              <ListGroupItemHeading>Professor Messages</ListGroupItemHeading>
+                {messageList.map(message => (
+                  <ListGroupItemText>{new Date(message.date).toLocaleDateString()}    {message.message}</ListGroupItemText>
+                  
+                ))}
+              </ListGroup>
+              <div className='Message-form'>
+            <h2>Message Form</h2>
+            <hr />
+            <Form className='message-form'onSubmit={handleSubmit}>
+                <FormGroup >
+                    <Label for='date'>Date:  </Label>
+                    <Input className='message-area' type='date' name='date' id='email' value={form.date} onChange={handleChange} />
+                </FormGroup>
+                <FormGroup >
+                    <Label for='password'>Password:  </Label>
+                    <textarea className='message-area' name='message' id='password' placeholder='  message' value={form.message} onChange={handleChange} />
+                </FormGroup>
+                <Button>Send Message</Button>
+            </Form>
+        </div>
         {allProjects ? allProjects.map(project => (
           <Card key={`${project.id}`}>
             <CardHeader>
@@ -152,28 +171,7 @@ const handleDelete = (id) => {
                 </ListGroupItem>
                 
               </ListGroup>
-              <ListGroup>
-              <ListGroupItemHeading>Professor Messages</ListGroupItemHeading>
-                {messageList.map(message => (
-                  <ListGroupItemText>{new Date(message.date).toLocaleDateString()}   {message.message}</ListGroupItemText>
-                  
-                ))}
-              </ListGroup>
-              <div className='Message-form'>
-            <h2>Message Form</h2>
-            <hr />
-            <Form className='message-form'onSubmit={handleSubmit}>
-                <FormGroup >
-                    <Label for='date'>Date:  </Label>
-                    <Input className='message-area' type='date' name='date' id='email' value={form.date} onChange={handleChange} />
-                </FormGroup>
-                <FormGroup >
-                    <Label for='password'>Password:  </Label>
-                    <textarea className='message-area' name='message' id='password' placeholder='  message' value={form.message} onChange={handleChange} />
-                </FormGroup>
-                <Button>Send Message</Button>
-            </Form>
-        </div>
+              
             </CardBody>
           </Card>
         )) : <h2>No projects assigned</h2>}

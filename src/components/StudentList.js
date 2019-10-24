@@ -13,7 +13,9 @@ import { axiosWithAuth } from './utils/axiosWithAuth';
 const StudentList = ({
   setStudent, studentList, setStudentList, refreshStudents, setRefreshStudents
 }) => {
-  const [studentToEdit, setStudentToEdit] = useState({});
+  const [studentToEdit, setStudentToEdit] = useState({
+
+  });
   // state to control loading spinner display
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -61,16 +63,15 @@ const StudentList = ({
   }, [refreshStudents, setRefreshStudents, setStudentList, studentList]);
 
   const handleDelete = (id) => {
+
     axiosWithAuth()
       .delete(`students/${id}`)
       .then((res) => {
-        console.log(res);
+        setStudentList(studentList.filter(student=>student.id !== id))
       })
       .catch((err) => {
         console.log(err);
       });
-    console.log(id);
-
     // refresh studentList
     setRefreshStudents(true);
   };
@@ -91,36 +92,36 @@ const StudentList = ({
   };
 
   const handleEdit = (student) => {
-    setStudentToEdit(student);
+    setStudentToEdit({
+      student_name : student.student_name,
+      major : student.major,
+      id: student.id
+    });
+    console.log(studentToEdit)
     toggleModal();
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     toggleModal();
-
-    setStudentList(studentList
-      .map((student) => {
-        if (student.id === studentToEdit.id) {
-          return { ...studentToEdit };
-        }
-        return student;
-      })
-      // .sort((a, b) => {
-      //   if (a.name.toUpperCase() < b.name.toUpperCase()) {
-      //     return -1;
-      //   }
-      //   if (a.name.toUpperCase() > b.name.toUpperCase()) {
-      //     return 1;
-      //   }
-      //   return 0;
-      // })
-      );
-
+    // setStudentList(studentList
+    //   .map((student) => {
+    //     if (student.id === studentToEdit.id) {
+    //       return { ...studentToEdit };
+    //     }
+    //     return student;
+    //   })
+    // );
+    console.log(studentToEdit)
     axiosWithAuth()
       .put(`/students/${studentToEdit.id}`, studentToEdit)
       .then((response) => {
-        console.log(response);
+        setStudentList(studentList.map(student=> {
+          if(student.id === studentToEdit.id){
+            return studentToEdit
+          }
+          return student
+        }))
       })
       .catch((error) => {
         console.log(error);
@@ -151,9 +152,9 @@ const StudentList = ({
               <Label for="name">Name</Label>
               <Input
                 type="text"
-                name="name"
+                name="student_name"
                 id="name"
-                value={studentToEdit.name}
+                value={studentToEdit.student_name}
                 onChange={handleChange}
               />
             </FormGroup>
