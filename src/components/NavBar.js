@@ -23,9 +23,7 @@ const NavBar = () => {
 
   return (
     <Navbar color="light" light expand="md">
-      <NavbarBrand>
-        <img className="App-logo" src={logo} alt="better professor logo" />
-      </NavbarBrand>
+      <img className='App-logo'src={logo} alt='better professor logo' />
       <NavbarToggler onClick={toggleOpen} />
       <Collapse isOpen={isOpen} navbar>
         <Nav className="ml-auto" navbar>
