@@ -52,7 +52,7 @@ const StudentForm = ({setStudentList, studentList}) => {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label for='major'>major:</Label>
+                    <Label for='major'>Major:</Label>
                     <Input
                         type='text'
                         name='major'

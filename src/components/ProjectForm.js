@@ -66,7 +66,7 @@ const ProjectForm = ({ studentList }) => {
         <hr />
         <Form onSubmit={handleSubmit}>
           <FormGroup>
-            <Label for="name">Project Name</Label>
+            <Label for="name">Project Name: </Label>
             <Input
               type="text"
               name="name"
@@ -76,7 +76,7 @@ const ProjectForm = ({ studentList }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="description">Project Description</Label>
+            <Label for="description">Project Description: </Label>
             <Input
               type="textarea"
               name="description"
@@ -86,7 +86,7 @@ const ProjectForm = ({ studentList }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="deadline">Project Due By</Label>
+            <Label for="deadline">Project Due By: </Label>
             <Input
               type="date"
               name="deadline"
@@ -96,7 +96,7 @@ const ProjectForm = ({ studentList }) => {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="deadlineType">Deadline Type</Label>
+            <Label for="deadlineType">Deadline Type: </Label>
             <Input
               type="select"
               name="deadlineType"
@@ -110,7 +110,7 @@ const ProjectForm = ({ studentList }) => {
             </Input>
           </FormGroup>
           <FormGroup>
-            <Label for="assignedStudents">Assigned Students</Label>
+            <Label for="assignedStudents">Assigned Students: </Label>
             <Input
               type="select"
               name="assignedStudents"
