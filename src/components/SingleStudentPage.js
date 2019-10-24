@@ -22,8 +22,10 @@ const SingleStudentPage = ({ student }) => {
   const [modal, setModal] = useState(false);
   const [form , setForm] = useState({
     date: '',
-    message: ''
+    message: '',
+    student_id: student.id
   });
+  const [messageList, setMessageList] = useState([])
   const [allProjects, setAllProjects] = useState([])
   const [projectAdded, setProjectAdded] = useState({
     project_name: '',
@@ -33,70 +35,69 @@ const SingleStudentPage = ({ student }) => {
     student_id: student.id
   })
 
+
+useEffect(()=>{
+  axiosWithAuth()
+  .get(`/projects/students/${student.id}`)
+  .then(res=>{
+    setAllProjects(res.data)
+  })
+  axiosWithAuth()
+  .get(`/messages/students/${student.id}`)
+  .then(res=> {
+    setMessageList(res.data)
+  })
+},[setModal])
+//message stuff
 const handleChange = e => {
+  if (e.target.name === 'deadline'){
+    setForm({
+      ...form,
+      date: e.target.value
+    })
+  }
     setForm({
         ...form,
         [e.target.name]: e.target.value
     })
 }
-useEffect(()=>{
-  axiosWithAuth()
-  .get(`/projects/students/${student.id}`)
-  .then(res=>{
-    console.log(res)
-    setAllProjects(res.data)
-  })
-},[setModal])
-  
 const handleSubmit = e => {
   e.preventDefault();
-  // axiosWithAuth()
-  // .post(`/professor-student-info/message/${student.id}`, form)
-  // .then(res=>{
-  //   console.log(res)
-    
-  // })
-  // .catch(err=>{
-  //   console.log(err)
-  // })
-  setForm({
-      date: '',
-      message: ''
-    })
+  axiosWithAuth()
+  .post(`/messages`, form)
+  .then(res=>{
+    console.log(res)
+    setMessageList([...messageList, res.data[0]])
+  })
 }
-
+//addd project stuff
 const toggleModal = () => {
   setModal(!modal);
 };
-
-const handleDelete = (id) => {
-  axiosWithAuth()
-  .delete(`/projects/${id}`)
-  .then(res=>{
-    console.log(res)
-    window.location.reload();
-  })
-}
-
 const handleAddProject = e => {
   setProjectAdded({
     ...projectAdded,
     [e.target.name] : e.target.value
   })
-  console.log(projectAdded)
 }
-
 const handleSubmitProject = e => {
   axiosWithAuth()
   .post(`/projects`, projectAdded )
   .then(res=>{
-    console.log(res)
-    window.location.reload()
+    setAllProjects([...allProjects, projectAdded])
   })
   .catch(err=>{
     console.log(err)
   })
   toggleModal()
+}
+//delete project
+const handleDelete = (id) => {
+  axiosWithAuth()
+  .delete(`/projects/${id}`)
+  .then(res=>{
+    setAllProjects(allProjects.filter(proj => proj.id !== id))
+  })
 }
 
   return (
@@ -126,6 +127,28 @@ const handleSubmitProject = e => {
     <Container>
       <ListGroup>
         <Button color="success" className="w-25 align-self-center" onClick={toggleModal}>Add Project</Button>
+        <ListGroup>
+              <ListGroupItemHeading>Professor Messages</ListGroupItemHeading>
+                {messageList.map(message => (
+                  <ListGroupItemText>{new Date(message.date).toLocaleDateString()}    {message.message}</ListGroupItemText>
+                  
+                ))}
+              </ListGroup>
+              <div className='Message-form'>
+            <h2>Message Form</h2>
+            <hr />
+            <Form className='message-form'onSubmit={handleSubmit}>
+                <FormGroup >
+                    <Label for='date'>Date:  </Label>
+                    <Input className='message-area' type='date' name='date' id='email' value={form.date} onChange={handleChange} />
+                </FormGroup>
+                <FormGroup >
+                    <Label for='password'>Password:  </Label>
+                    <textarea className='message-area' name='message' id='password' placeholder='  message' value={form.message} onChange={handleChange} />
+                </FormGroup>
+                <Button>Send Message</Button>
+            </Form>
+        </div>
         {allProjects ? allProjects.map(project => (
           <Card key={`${project.id}`}>
             <CardHeader>
@@ -148,21 +171,7 @@ const handleSubmitProject = e => {
                 </ListGroupItem>
                 
               </ListGroup>
-              <div className='Message-form'>
-            <h2>Message Form</h2>
-            <hr />
-            <Form className='message-form'onSubmit={handleSubmit}>
-                <FormGroup >
-                    <Label for='date'>Date:  </Label>
-                    <Input className='message-area' type='date' name='date' id='email' value={form.date} onChange={handleChange} />
-                </FormGroup>
-                <FormGroup >
-                    <Label for='password'>Password:  </Label>
-                    <textarea className='message-area' name='message' id='password' placeholder='  message' value={form.message} onChange={handleChange} />
-                </FormGroup>
-                <Button>Send Message</Button>
-            </Form>
-        </div>
+              
             </CardBody>
           </Card>
         )) : <h2>No projects assigned</h2>}

@@ -119,8 +119,8 @@ const ProjectForm = ({ studentList }) => {
               multiple
             >
               {studentList.sort((a, b) => {
-                if (a.student_name < b.student_name) { return -1; }
-                if (a.student_name > b.student_name) { return 1; }
+                if (a.student_name.toUpperCase() < b.student_name.toUpperCase()) { return -1; }
+                if (a.student_name.toUpperCase() > b.student_name.toUpperCase()) { return 1; }
                 return 0;
               }).map((student) => (
                 <option key={student.id} value={student.id}>{student.student_name}</option>

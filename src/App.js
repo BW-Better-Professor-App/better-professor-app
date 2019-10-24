@@ -15,17 +15,14 @@ import StudentForm from './components/StudentForm';
 
 import './styles/main.scss';
 import './App.css';
-import ProjectList from './components/ProjectList';
 
 
 function App() {
   /* studentList initialized to non-empty array with null value to indicate it has not
   yet been altered by the API call and a loading message should be displayed */
   const [studentList, setStudentList] = useState([null]);
-  const [projectList, setProjectList] = useState([]);
   // state to control when the studentList should be refreshed to limit redundant API calls
   const [refreshStudents, setRefreshStudents] = useState(true);
-  const [refreshProjects, setRefreshProjects] = useState(true);
   /* useLocalStorage allows the student to stay persistent after a browser refreshStudents. Without
   * this, the student page would show "undefined" on a refreshStudents because it would wipe out
   * state. */
@@ -61,22 +58,6 @@ function App() {
               <NavBar />
               <SingleStudentPage
                 student={student}
-              />
-            </>
-          )}
-        />
-
-        <PrivateRoute
-          exact
-          path="/projects"
-          component={() => (
-            <>
-              <NavBar />
-              <ProjectList
-                projectList={projectList}
-                setProjectList={setProjectList}
-                refreshProjects={refreshProjects}
-                setRefreshProjects={setRefreshProjects}
               />
             </>
           )}
