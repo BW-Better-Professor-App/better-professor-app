@@ -3,10 +3,16 @@
 }
 
 .App-logo {
-  width: 25%;
+  width: 15%;
   padding: 0;
   margin: 0;
   align-self: baseline;
+}
+
+@media (max-width: 500px){
+  .App-logo{
+    width: 25%;
+  }
 }
 
 .App-header {
@@ -84,6 +90,12 @@ Label{
   color: rgba(0,0,0,0.75)
 }
 
+@media(max-width: 1024px){
+  Label {
+    font-size: 2rem;
+  }
+}
+
 Input {
   border: 1.5px solid black;
   border-radius: 15px;
@@ -104,10 +116,10 @@ button, Button {
     -1px -1px 30px rgba(0,0,0,0.2) 
 }
 
-@media (max-width: 800px){
-  button, Button {
+@media (max-width: 1024px){
+  button, Button, .btn {
     padding: 0.6rem 2.3rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -142,6 +154,13 @@ h2 {
 
 a {
   color: #bd8c7d
+}
+
+@media (max-width: 1024px){
+    a{
+      font-size: 1.7rem;
+      
+    }
 }
 
 
