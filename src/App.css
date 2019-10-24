@@ -58,11 +58,18 @@ Button {
 
 .studentForm {
   width: 90%;
-  margin: 2.5%;
+  margin: 2.5% auto;
   padding: 1.5%;
 }
 
-.hr{
+@media (max-width: 500px){
+  .studentForm{
+    width: 95%;
+    margin: 1.5% auto;
+  }
+}
+
+.hr {
   display: none;
 }
 
@@ -94,8 +101,14 @@ button, Button {
   box-shadow: 
     2px 2px 5px rgba(0,0,0,0.5),
     10px 10px 15px rgba(0,0,0,0.5),
-    -1px -1px 30px rgba(0,0,0,0.2)
-  
+    -1px -1px 30px rgba(0,0,0,0.2) 
+}
+
+@media (max-width: 800px){
+  button, Button {
+    padding: 0.6rem 2.3rem;
+    font-size: 2rem;
+  }
 }
 
 .form-control {
@@ -114,9 +127,10 @@ h2 {
   border-radius: 15px;
   background:#f8f3f2;
   box-shadow: 
-    2px 2px 5px rgba(0,0,0,0.5),
-    10px 10px 15px rgba(0,0,0,0.5),
-    -1px -1px 30px rgba(0,0,0,0.2)
+    2px 2px 5px rgba(0,0,0,0.5);
+    /* 10px 10px 15px rgba(0,0,0,0.5); */
+    /* -1px -1px 30px rgba(0,0,0,0.2); */
+  margin: 5%;
 }
 .jumbotron{
   background: #d1bfa7;
