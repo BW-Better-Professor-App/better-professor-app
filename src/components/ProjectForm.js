@@ -49,12 +49,8 @@ const ProjectForm = ({ studentList }) => {
           description: project.description,
           student_id: assignedStudent,
         })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        .then(() => window.location.reload())
+        .catch((err) => console.log(err));
     });
   };
 
@@ -98,16 +94,12 @@ const ProjectForm = ({ studentList }) => {
           <FormGroup>
             <Label for="deadlineType">Deadline Type</Label>
             <Input
-              type="select"
+              type="text"
               name="deadlineType"
               id="deadlineType"
+              placeholder="Deadline type"
               onChange={handleChange}
-            >
-              <option value="Research Paper">Research Paper</option>
-              <option value="Test">Test</option>
-              <option value="Group Assignment">Group Assignment</option>
-              <option value="Thesis">Thesis</option>
-            </Input>
+            />
           </FormGroup>
           <FormGroup>
             <Label for="assignedStudents">Assigned Students</Label>
@@ -132,6 +124,7 @@ const ProjectForm = ({ studentList }) => {
       </Container>
     );
   }
+
   return (
     <Container>
       <h1>Please add a student before assigning a project.</h1>
