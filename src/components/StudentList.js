@@ -14,7 +14,9 @@ const StudentList = ({
   setStudent, studentList, setStudentList, refreshStudents, setRefreshStudents
 }) => {
   const [studentToEdit, setStudentToEdit] = useState({
+
   });
+  console.log('page refreshed')
   // state to control loading spinner display
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -62,16 +64,15 @@ const StudentList = ({
   }, [refreshStudents, setRefreshStudents, setStudentList, studentList]);
 
   const handleDelete = (id) => {
+
     axiosWithAuth()
       .delete(`students/${id}`)
       .then((res) => {
-        console.log(res);
+        setStudentList(studentList.filter(student=>student.id !== id))
       })
       .catch((err) => {
         console.log(err);
       });
-    console.log(id);
-
     // refresh studentList
     setRefreshStudents(true);
   };
@@ -89,44 +90,39 @@ const StudentList = ({
       ...studentToEdit,
       [e.target.name]: e.target.value,
     });
-    console.log(studentToEdit)
   };
 
   const handleEdit = (student) => {
     setStudentToEdit({
       student_name : student.student_name,
       major : student.major,
-      user_id: localStorage.getItem('id')
+      id: student.id
     });
+    console.log(studentToEdit)
     toggleModal();
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     toggleModal();
-
-    setStudentList(studentList
-      .map((student) => {
-        if (student.id === studentToEdit.id) {
-          return { ...studentToEdit };
-        }
-        return student;
-      })
-      // .sort((a, b) => {
-      //   if (a.name.toUpperCase() < b.name.toUpperCase()) {
-      //     return -1;
-      //   }
-      //   if (a.name.toUpperCase() > b.name.toUpperCase()) {
-      //     return 1;
-      //   }
-      //   return 0;
-      // })
-      );
-
+    // setStudentList(studentList
+    //   .map((student) => {
+    //     if (student.id === studentToEdit.id) {
+    //       return { ...studentToEdit };
+    //     }
+    //     return student;
+    //   })
+    // );
+    console.log(studentToEdit)
     axiosWithAuth()
-      .put(`/students/${studentToEdit.user_id}`, studentToEdit)
+      .put(`/students/${studentToEdit.id}`, studentToEdit)
       .then((response) => {
-        console.log(response);
+        setStudentList(studentList.map(student=> {
+          if(student.id === studentToEdit.id){
+            return studentToEdit
+          }
+          return student
+        }))
       })
       .catch((error) => {
         console.log(error);
