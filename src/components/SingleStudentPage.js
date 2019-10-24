@@ -22,8 +22,10 @@ const SingleStudentPage = ({ student }) => {
   const [modal, setModal] = useState(false);
   const [form , setForm] = useState({
     date: '',
-    message: ''
+    message: '',
+    student_id: student.id
   });
+  const [messageList, setMessageList] = useState([])
   const [allProjects, setAllProjects] = useState([])
   const [projectAdded, setProjectAdded] = useState({
     project_name: '',
@@ -33,51 +35,45 @@ const SingleStudentPage = ({ student }) => {
     student_id: student.id
   })
 
+
+useEffect(()=>{
+  axiosWithAuth()
+  .get(`/projects/students/${student.id}`)
+  .then(res=>{
+    setAllProjects(res.data)
+  })
+  axiosWithAuth()
+  .get(`/messages/students/${student.id}`)
+  .then(res=> {
+    setMessageList(res.data)
+  })
+},[setModal])
+//message stuff
 const handleChange = e => {
     setForm({
         ...form,
         [e.target.name]: e.target.value
     })
 }
-useEffect(()=>{
-  axiosWithAuth()
-  .get(`/projects/students/${student.id}`)
-  .then(res=>{
-    console.log(res)
-    setAllProjects(res.data)
-  })
-},[setModal])
-  
 const handleSubmit = e => {
   e.preventDefault();
-  // axiosWithAuth()
-  // .post(`/professor-student-info/message/${student.id}`, form)
-  // .then(res=>{
-  //   console.log(res)
-    
-  // })
-  // .catch(err=>{
-  //   console.log(err)
-  // })
+  axiosWithAuth()
+  .post(`/messages`, form)
+  .then(res=>{
+    console.log(res)
+    setMessageList(res.data)
+  })
   setForm({
       date: '',
-      message: ''
+      message: '',
+      student_id: student.id
     })
 }
 
+//addd project stuff
 const toggleModal = () => {
   setModal(!modal);
 };
-
-const handleDelete = (id) => {
-  axiosWithAuth()
-  .delete(`/projects/${id}`)
-  .then(res=>{
-    console.log(res)
-    window.location.reload();
-  })
-}
-
 const handleAddProject = e => {
   setProjectAdded({
     ...projectAdded,
@@ -85,7 +81,6 @@ const handleAddProject = e => {
   })
   console.log(projectAdded)
 }
-
 const handleSubmitProject = e => {
   axiosWithAuth()
   .post(`/projects`, projectAdded )
@@ -97,6 +92,15 @@ const handleSubmitProject = e => {
     console.log(err)
   })
   toggleModal()
+}
+//delete project
+const handleDelete = (id) => {
+  axiosWithAuth()
+  .delete(`/projects/${id}`)
+  .then(res=>{
+    console.log(res)
+    window.location.reload();
+  })
 }
 
   return (
@@ -147,6 +151,13 @@ const handleSubmitProject = e => {
                   <ListGroupItemText>{project.description === '' ? 'none': project.description}</ListGroupItemText>
                 </ListGroupItem>
                 
+              </ListGroup>
+              <ListGroup>
+              <ListGroupItemHeading>Professor Messages</ListGroupItemHeading>
+                {messageList.map(message => (
+                  <ListGroupItemText>{new Date(message.date).toLocaleDateString()}   {message.message}</ListGroupItemText>
+                  
+                ))}
               </ListGroup>
               <div className='Message-form'>
             <h2>Message Form</h2>
