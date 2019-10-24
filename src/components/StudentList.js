@@ -16,7 +16,6 @@ const StudentList = ({
   const [studentToEdit, setStudentToEdit] = useState({
 
   });
-  console.log('page refreshed')
   // state to control loading spinner display
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
