@@ -62,7 +62,6 @@ const StudentList = ({
 
   const handleDelete = (id) => {
     axiosWithAuth()
-
       .delete(`students/${id}`)
       .then((res) => {
         console.log(res);
