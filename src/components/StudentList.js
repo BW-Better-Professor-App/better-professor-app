@@ -13,7 +13,8 @@ import { axiosWithAuth } from './utils/axiosWithAuth';
 const StudentList = ({
   setStudent, studentList, setStudentList, refreshStudents, setRefreshStudents
 }) => {
-  const [studentToEdit, setStudentToEdit] = useState({});
+  const [studentToEdit, setStudentToEdit] = useState({
+  });
   // state to control loading spinner display
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
@@ -88,10 +89,15 @@ const StudentList = ({
       ...studentToEdit,
       [e.target.name]: e.target.value,
     });
+    console.log(studentToEdit)
   };
 
   const handleEdit = (student) => {
-    setStudentToEdit(student);
+    setStudentToEdit({
+      student_name : student.student_name,
+      major : student.major,
+      user_id: localStorage.getItem('id')
+    });
     toggleModal();
   };
 
@@ -118,7 +124,7 @@ const StudentList = ({
       );
 
     axiosWithAuth()
-      .put(`/students/${studentToEdit.id}`, studentToEdit)
+      .put(`/students/${studentToEdit.user_id}`, studentToEdit)
       .then((response) => {
         console.log(response);
       })
@@ -151,9 +157,9 @@ const StudentList = ({
               <Label for="name">Name</Label>
               <Input
                 type="text"
-                name="name"
+                name="student_name"
                 id="name"
-                value={studentToEdit.name}
+                value={studentToEdit.student_name}
                 onChange={handleChange}
               />
             </FormGroup>
