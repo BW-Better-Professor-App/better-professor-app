@@ -71,9 +71,10 @@ const toggleModal = () => {
 
 const handleDelete = (id) => {
   axiosWithAuth()
-  .delete(`/professor-student-info/${student.id}/projects/${id}`)
+  .delete(`/projects/${id}`)
   .then(res=>{
     console.log(res)
+    window.location.reload();
   })
 }
 
@@ -90,6 +91,7 @@ const handleSubmitProject = e => {
   .post(`/projects`, projectAdded )
   .then(res=>{
     console.log(res)
+    window.location.reload()
   })
   .catch(err=>{
     console.log(err)
@@ -140,9 +142,9 @@ const handleSubmitProject = e => {
                     {new Date(project.deadline).toLocaleString()}
                   </ListGroupItemText>
                   <ListGroupItemHeading>Deadline Type</ListGroupItemHeading>
-                  <ListGroupItemText>{project.deadline_type===''?project.deadline_type : 'none'}</ListGroupItemText>
+                  <ListGroupItemText>{project.deadline_type===''?  'none': project.deadline_type}</ListGroupItemText>
                   <ListGroupItemHeading>Description</ListGroupItemHeading>
-                  <ListGroupItemText>{project.description===''?project.description:'none'}</ListGroupItemText>
+                  <ListGroupItemText>{project.description === '' ? 'none': project.description}</ListGroupItemText>
                 </ListGroupItem>
                 
               </ListGroup>
