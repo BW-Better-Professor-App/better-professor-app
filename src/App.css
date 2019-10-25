@@ -3,10 +3,16 @@
 }
 
 .App-logo {
-  width: 25%;
+  width: 15%;
   padding: 0;
   margin: 0;
   align-self: baseline;
+}
+
+@media (max-width: 500px){
+  .App-logo{
+    width: 25%;
+  }
 }
 
 .App-header {
@@ -58,11 +64,22 @@ Button {
 
 .studentForm {
   width: 90%;
-  margin: 2.5%;
+  margin: 2.5% auto;
   padding: 1.5%;
 }
 
-.hr{
+@media (max-width: 500px){
+  .studentForm{
+    width: 95%;
+    margin: 1.5% auto;
+  }
+
+  p{
+    font-size: 1.6rem;
+  }
+}
+
+.hr {
   display: none;
 }
 
@@ -75,6 +92,12 @@ Form {
 Label{
   font-weight: 800;
   color: rgba(0,0,0,0.75)
+}
+
+@media(max-width: 1024px){
+  Label {
+    font-size: 2rem;
+  }
 }
 
 Input {
@@ -94,8 +117,14 @@ button, Button {
   box-shadow: 
     2px 2px 5px rgba(0,0,0,0.5),
     10px 10px 15px rgba(0,0,0,0.5),
-    -1px -1px 30px rgba(0,0,0,0.2)
-  
+    -1px -1px 30px rgba(0,0,0,0.2) 
+}
+
+@media (max-width: 1024px){
+  button, Button, .btn {
+    padding: 0.6rem 2.3rem;
+    font-size: 1.5rem;
+  }
 }
 
 .form-control {
@@ -114,9 +143,10 @@ h2 {
   border-radius: 15px;
   background:#f8f3f2;
   box-shadow: 
-    2px 2px 5px rgba(0,0,0,0.5),
-    10px 10px 15px rgba(0,0,0,0.5),
-    -1px -1px 30px rgba(0,0,0,0.2)
+    2px 2px 5px rgba(0,0,0,0.5);
+    /* 10px 10px 15px rgba(0,0,0,0.5); */
+    /* -1px -1px 30px rgba(0,0,0,0.2); */
+  margin: 5%;
 }
 .jumbotron{
   background: #d1bfa7;
@@ -128,6 +158,13 @@ h2 {
 
 a {
   color: #bd8c7d
+}
+
+@media (max-width: 1024px){
+    a{
+      font-size: 1.7rem;
+      
+    }
 }
 
 

@@ -12,8 +12,7 @@ const ConfirmDelete = ({
 }) => {
   const handleDelete = () => {
     axiosWithAuth()
-      .delete(url)
-      .then(() => window.location.reload());
+      .delete(url);
   };
 
   const handleCancel = () => {

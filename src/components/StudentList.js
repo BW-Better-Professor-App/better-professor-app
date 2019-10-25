@@ -87,7 +87,11 @@ const StudentList = ({
   };
 
   const handleEdit = (student) => {
-    setStudentToEdit(student);
+    setStudentToEdit({
+      student_name : student.student_name,
+      major : student.major,
+      id: student.id
+    });
     toggleEditModal();
   };
 
@@ -105,8 +109,13 @@ const StudentList = ({
 
     axiosWithAuth()
       .put(`/students/${studentToEdit.id}`, studentToEdit)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
+        setStudentList(studentList.map(student=> {
+          if(student.id === studentToEdit.id){
+            return studentToEdit
+          }
+          return student
+        }))
       })
       .catch((error) => {
         console.log(error);
@@ -144,9 +153,9 @@ const StudentList = ({
               <Label for="name">Name</Label>
               <Input
                 type="text"
-                name="name"
+                name="student_name"
                 id="name"
-                value={studentToEdit.name}
+                value={studentToEdit.student_name}
                 onChange={handleChange}
               />
             </FormGroup>
