@@ -180,7 +180,9 @@ const StudentList = ({
       </Modal>
 
       <Row>
-        <Button color="success" onClick={() => window.location.href = '/studentform'}>Add</Button>
+        <Link to="/studentform">
+          <Button color="success">Add</Button>
+        </Link>
       </Row>
 
       {/* Display cards if results are returned from API call. Otherwise, indicate
@@ -199,7 +201,7 @@ const StudentList = ({
                     role="link"
                     tabIndex="0"
                   >
-                    <CardTitle tag="h2">{`${student.student_name}`}</CardTitle>
+                    <CardTitle tag="h2">{student.student_name}</CardTitle>
                   </Link>
                   <CardSubtitle><p>{student.major}</p></CardSubtitle>
                 </CardHeader>
