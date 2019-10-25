@@ -19,6 +19,7 @@ const StudentList = ({
   // state to control loading spinner display
   const [isLoading, setIsLoading] = useState(true);
   const [deleteItem, setDeleteItem] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const [modal, setModal] = useState(false);
   useEffect(() => {
     /* initial state of refreshStudents is true. Every time a page is refreshed, or
@@ -61,6 +62,13 @@ const StudentList = ({
     automatically when a page is refreshed, or state is set manually. */
     setRefreshStudents(false);
   }, [refreshStudents, setRefreshStudents, setStudentList, studentList]);
+
+  useEffect(() => {
+    if (confirm) {
+      setStudentList(studentList.filter((student) => student.id !== studentToDelete.id));
+      setConfirm(false);
+    }
+  }, [confirm, setStudentList, studentList, studentToDelete.id]);
 
   const toggleEditModal = () => {
     setModal(!modal);
@@ -142,6 +150,7 @@ const StudentList = ({
         toggleModal={toggleDeleteModal}
         item={studentToDelete.student_name}
         url={`students/${studentToDelete.id}`}
+        setConfirm={setConfirm}
       />
 
       <Modal isOpen={modal} toggle={toggleEditModal}>
