@@ -131,7 +131,16 @@ const SingleStudentPage = ({ student }) => {
     e.preventDefault();
     axiosWithAuth()
       .post('/messages', form)
-      .then((res) => setMessageList([...messageList, res.data[0]]))
+      .then((res) =>{
+        setMessageList([...messageList, res.data[0]])
+          setForm({
+            date: '',
+            message: '',
+            student_id: student.id
+          })
+        }
+      )
+      
       .catch((error) => console.log(error));
   };
 
@@ -179,6 +188,7 @@ const SingleStudentPage = ({ student }) => {
     <Container>
       <ListGroup>
         <Button color="success" className="w-25 align-self-center" onClick={toggleModal}>Add Project</Button>
+      </ListGroup>
       <ListGroup>
           <Button
             color="success"
@@ -243,6 +253,7 @@ const SingleStudentPage = ({ student }) => {
       </Container>
     </Container>
   );
+  
 };
 
 
