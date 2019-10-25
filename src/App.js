@@ -20,7 +20,7 @@ import './App.css';
 function App() {
   /* studentList initialized to non-empty array with null value to indicate it has not
   yet been altered by the API call and a loading message should be displayed */
-  const [studentList, setStudentList] = useState([null]);
+  const [studentList, setStudentList] = useLocalStorage('studentList', [null]);
   // state to control when the studentList should be refreshed to limit redundant API calls
   const [refreshStudents, setRefreshStudents] = useState(true);
   /* useLocalStorage allows the student to stay persistent after a browser refreshStudents. Without

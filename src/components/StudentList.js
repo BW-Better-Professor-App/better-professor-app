@@ -3,38 +3,38 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
   Container, Row, CardColumns, Spinner, CardHeader, CardTitle, CardSubtitle,
-  CardBody, ListGroup, ListGroupItem, Card, Button, CardFooter, Form, ModalHeader,
-  ModalBody, FormGroup, Label, Input, ModalFooter, Modal,
+  Card, Button, CardFooter, Form, ModalHeader, ModalBody, FormGroup, Label,
+  Input, ModalFooter, Modal,
 } from 'reactstrap';
 
 import { axiosWithAuth } from './utils/axiosWithAuth';
+import ConfirmDelete from './ConfirmDelete';
 
 
 const StudentList = ({
-  setStudent, studentList, setStudentList, refreshStudents, setRefreshStudents
+  setStudent, studentList, setStudentList, refreshStudents, setRefreshStudents,
 }) => {
-  const [studentToEdit, setStudentToEdit] = useState({
-
-  });
+  const [studentToEdit, setStudentToEdit] = useState({});
+  const [studentToDelete, setStudentToDelete] = useState({});
   // state to control loading spinner display
   const [isLoading, setIsLoading] = useState(true);
+  const [deleteItem, setDeleteItem] = useState(false);
   const [modal, setModal] = useState(false);
   useEffect(() => {
     /* initial state of refreshStudents is true. Every time a page is refreshed, or
     refreshStudents is reset manually, the studentList will be re-populated */
 
     if (refreshStudents) {
-      const id = localStorage.getItem('id')
+      const id = localStorage.getItem('id');
       axiosWithAuth()
         .get(`/students/user/${id}`)
         .then((response) => {
-          console.log(response)
           // sort the students by first name before rendering list
           response.data.sort((a, b) => {
-            if (a.name < b.name) {
+            if (a.student_name.toUpperCase() < b.student_name.toUpperCase()) {
               return -1;
             }
-            if (a.name > b.name) {
+            if (a.student_name.toUpperCase() > b.student_name.toUpperCase()) {
               return 1;
             }
             return 0;
@@ -62,26 +62,21 @@ const StudentList = ({
     setRefreshStudents(false);
   }, [refreshStudents, setRefreshStudents, setStudentList, studentList]);
 
-  const handleDelete = (id) => {
+  const toggleEditModal = () => {
+    setModal(!modal);
+  };
 
-    axiosWithAuth()
-      .delete(`students/${id}`)
-      .then((res) => {
-        setStudentList(studentList.filter(student=>student.id !== id))
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    // refresh studentList
-    setRefreshStudents(true);
+  const toggleDeleteModal = () => {
+    setDeleteItem(!deleteItem);
+  };
+
+  const handleDelete = (student) => {
+    setStudentToDelete(student);
+    toggleDeleteModal();
   };
 
   const handleClick = (student) => {
     setStudent(student);
-  };
-
-  const toggleModal = () => {
-    setModal(!modal);
   };
 
   const handleChange = (e) => {
@@ -97,25 +92,24 @@ const StudentList = ({
       major : student.major,
       id: student.id
     });
-    console.log(studentToEdit)
-    toggleModal();
+    toggleEditModal();
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    toggleModal();
-    // setStudentList(studentList
-    //   .map((student) => {
-    //     if (student.id === studentToEdit.id) {
-    //       return { ...studentToEdit };
-    //     }
-    //     return student;
-    //   })
-    // );
-    console.log(studentToEdit)
+    toggleEditModal();
+
+    setStudentList(studentList
+      .map((student) => {
+        if (student.id === studentToEdit.id) {
+          return { ...studentToEdit };
+        }
+        return student;
+      }));
+
     axiosWithAuth()
       .put(`/students/${studentToEdit.id}`, studentToEdit)
-      .then((response) => {
+      .then(() => {
         setStudentList(studentList.map(student=> {
           if(student.id === studentToEdit.id){
             return studentToEdit
@@ -143,9 +137,16 @@ const StudentList = ({
 
   return (
     <Container className="vh-100 justify-content-center">
-      <Modal isOpen={modal} toggle={toggleModal}>
+      <ConfirmDelete
+        modal={deleteItem}
+        toggleModal={toggleDeleteModal}
+        item={studentToDelete.student_name}
+        url={`students/${studentToDelete.id}`}
+      />
+
+      <Modal isOpen={modal} toggle={toggleEditModal}>
         <Form onSubmit={handleSubmit}>
-          <ModalHeader toggle={toggleModal}>Edit Student</ModalHeader>
+          <ModalHeader toggle={toggleEditModal}>Edit Student</ModalHeader>
 
           <ModalBody>
             <FormGroup>
@@ -173,13 +174,13 @@ const StudentList = ({
           <ModalFooter>
             <Button type="submit" color="primary">Save</Button>
             {' '}
-            <Button type="button" color="secondary" onClick={toggleModal}>Cancel</Button>
+            <Button type="button" color="secondary" onClick={toggleEditModal}>Cancel</Button>
           </ModalFooter>
         </Form>
       </Modal>
 
       <Row>
-        <Button color="success" onClick={()=> window.location.href = '/studentform'}>Add</Button>
+        <Button color="success" onClick={() => window.location.href = '/studentform'}>Add</Button>
       </Row>
 
       {/* Display cards if results are returned from API call. Otherwise, indicate
@@ -205,7 +206,7 @@ const StudentList = ({
 
                 <CardFooter>
                   <Button onClick={() => { handleEdit(student); }}>Edit</Button>
-                  <Button color="danger" onClick={() => handleDelete(student.id)}>Delete</Button>
+                  <Button color="danger" onClick={() => handleDelete(student)}>Delete</Button>
                 </CardFooter>
               </Card>
             ))}
@@ -221,9 +222,9 @@ StudentList.propTypes = {
   studentList: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-      name: PropTypes.string,
+      student_name: PropTypes.string,
       major: PropTypes.string,
-      user_id: PropTypes.number
+      user_id: PropTypes.number,
     }),
   ).isRequired,
   setStudentList: PropTypes.func.isRequired,
