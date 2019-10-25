@@ -19,6 +19,7 @@ const StudentList = ({
   // state to control loading spinner display
   const [isLoading, setIsLoading] = useState(true);
   const [deleteItem, setDeleteItem] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const [modal, setModal] = useState(false);
   useEffect(() => {
     /* initial state of refreshStudents is true. Every time a page is refreshed, or
@@ -62,6 +63,13 @@ const StudentList = ({
     setRefreshStudents(false);
   }, [refreshStudents, setRefreshStudents, setStudentList, studentList]);
 
+  useEffect(() => {
+    if (confirm) {
+      setStudentList(studentList.filter((student) => student.id !== studentToDelete.id));
+      setConfirm(false);
+    }
+  }, [confirm, setStudentList, studentList, studentToDelete.id]);
+
   const toggleEditModal = () => {
     setModal(!modal);
   };
@@ -88,9 +96,9 @@ const StudentList = ({
 
   const handleEdit = (student) => {
     setStudentToEdit({
-      student_name : student.student_name,
-      major : student.major,
-      id: student.id
+      student_name: student.student_name,
+      major: student.major,
+      id: student.id,
     });
     toggleEditModal();
   };
@@ -110,12 +118,12 @@ const StudentList = ({
     axiosWithAuth()
       .put(`/students/${studentToEdit.id}`, studentToEdit)
       .then(() => {
-        setStudentList(studentList.map(student=> {
-          if(student.id === studentToEdit.id){
-            return studentToEdit
+        setStudentList(studentList.map((student) => {
+          if (student.id === studentToEdit.id) {
+            return studentToEdit;
           }
-          return student
-        }))
+          return student;
+        }));
       })
       .catch((error) => {
         console.log(error);
@@ -142,6 +150,7 @@ const StudentList = ({
         toggleModal={toggleDeleteModal}
         item={studentToDelete.student_name}
         url={`students/${studentToDelete.id}`}
+        setConfirm={setConfirm}
       />
 
       <Modal isOpen={modal} toggle={toggleEditModal}>
@@ -160,7 +169,7 @@ const StudentList = ({
               />
             </FormGroup>
             <FormGroup>
-              <Label for="major">major</Label>
+              <Label for="major">Major</Label>
               <Input
                 type="text"
                 name="major"
@@ -180,7 +189,9 @@ const StudentList = ({
       </Modal>
 
       <Row>
-        <Button color="success" onClick={() => window.location.href = '/studentform'}>Add</Button>
+        <Link to="/studentform">
+          <Button color="success">Add</Button>
+        </Link>
       </Row>
 
       {/* Display cards if results are returned from API call. Otherwise, indicate
@@ -199,7 +210,7 @@ const StudentList = ({
                     role="link"
                     tabIndex="0"
                   >
-                    <CardTitle tag="h2">{`${student.student_name}`}</CardTitle>
+                    <CardTitle tag="h2">{student.student_name}</CardTitle>
                   </Link>
                   <CardSubtitle><p>{student.major}</p></CardSubtitle>
                 </CardHeader>
