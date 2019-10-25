@@ -172,14 +172,14 @@ const SingleStudentPage = ({ student }) => {
           </Form>
         </ModalBody>
       </Modal>
-
-      <Jumbotron>
-        <h1>{student.student_name}</h1>
-        <h3>{student.major}</h3>
-      </Jumbotron>
-
-      <Container>
-        <ListGroup>
+    <Jumbotron>
+      <h1>{`${student.student_name}`}</h1>
+      <h3>{`Major: ${student.major}`}</h3>
+    </Jumbotron>
+    <Container>
+      <ListGroup>
+        <Button color="success" className="w-25 align-self-center" onClick={toggleModal}>Add Project</Button>
+      <ListGroup>
           <Button
             color="success"
             className="w-25 align-self-center"
@@ -203,16 +203,16 @@ const SingleStudentPage = ({ student }) => {
           <div className="Message-form">
             <h2>Message Form</h2>
             <hr />
-            <Form className="message-form" onSubmit={handleSubmit}>
-              <FormGroup>
-                <Label for="date">Date:  </Label>
-                <Input className="message-area" type="date" name="date" id="email" value={form.date} onChange={handleChange} />
-              </FormGroup>
-              <FormGroup>
-                <Label for="message">Message:  </Label>
-                <textarea className="message-area" name="message" id="message" placeholder="message" value={form.message} onChange={handleChange} />
-              </FormGroup>
-              <Button>Send Message</Button>
+            <Form className='message-form'onSubmit={handleSubmit}>
+                <FormGroup >
+                    <Label for='date'>Date:  </Label>
+                    <Input className='message-area' type='date' name='date' id='email' value={form.date} onChange={handleChange} />
+                </FormGroup>
+                <FormGroup >
+                    <Label for='password'>Message:  </Label>
+                    <textarea className='message-area' name='message' id='password' placeholder='  message' value={form.message} onChange={handleChange} />
+                </FormGroup>
+                <Button>Send Message</Button>
             </Form>
           </div>
 
