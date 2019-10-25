@@ -13,6 +13,7 @@ import ConfirmDelete from './ConfirmDelete';
 const SingleStudentPage = ({ student }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [deleteItem, setDeleteItem] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState({});
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState({
@@ -62,6 +63,12 @@ const SingleStudentPage = ({ student }) => {
     sortProjects(allProjects);
   }, [allProjects]);
 
+  useEffect(() => {
+    if (confirm) {
+      setAllProjects(allProjects.filter((proj) => proj.id !== projectToDelete.id));
+      setConfirm(false);
+    }
+  }, [allProjects, confirm, projectToDelete.id]);
 
   const toggleModal = () => {
     setModal(!modal);
@@ -72,8 +79,8 @@ const SingleStudentPage = ({ student }) => {
   };
 
   const handleDelete = (project) => {
-    setProjectToDelete(project)
-      .then(() => setAllProjects(allProjects.filter((proj) => proj.id !== project.id)));
+    setProjectToDelete(project);
+
     toggleDeleteModal();
   };
 
@@ -102,16 +109,11 @@ const SingleStudentPage = ({ student }) => {
 
   useEffect(() => {
     axiosWithAuth()
-      .get(`/projects/students/${student.id}`)
-      .then((res) => {
-        setAllProjects(res.data);
-      });
-    axiosWithAuth()
       .get(`/messages/students/${student.id}`)
       .then((res) => {
         setMessageList(res.data);
       });
-  }, [setModal, student.id]);
+  }, [student.id]);
 
   // message stuff
   const handleChange = (e) => {
@@ -155,6 +157,7 @@ const SingleStudentPage = ({ student }) => {
         toggleModal={toggleDeleteModal}
         item={projectToDelete.project_name}
         url={`projects/${projectToDelete.id}`}
+        setConfirm={setConfirm}
       />
 
       <Modal isOpen={modal} toggle={toggleModal}>
@@ -191,7 +194,7 @@ const SingleStudentPage = ({ student }) => {
           <ListGroup>
             <ListGroupItemHeading>Professor Messages</ListGroupItemHeading>
             {messageList.map((message) => (
-              <ListGroupItemText>
+              <ListGroupItemText key={message.message}>
                 {new Date(message.date).toLocaleDateString()}
                 {' '}
                 {message.message}
@@ -258,8 +261,6 @@ SingleStudentPage.propTypes = {
         description: PropTypes.string,
         deadline: PropTypes.date,
         deadline_type: PropTypes.date,
-        studentMessage: PropTypes.string,
-        professorMessage: PropTypes.string,
       }),
     ),
   }).isRequired,

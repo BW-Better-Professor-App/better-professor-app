@@ -8,11 +8,15 @@ import { axiosWithAuth } from './utils/axiosWithAuth';
 
 
 const ConfirmDelete = ({
-  modal, toggleModal, url, item,
+  modal, toggleModal, url, item, setConfirm,
 }) => {
   const handleDelete = () => {
     axiosWithAuth()
-      .delete(url);
+      .delete(url)
+      .then(() => setConfirm(true))
+      .catch((error) => console.log(error));
+
+    toggleModal();
   };
 
   const handleCancel = () => {
@@ -37,10 +41,12 @@ ConfirmDelete.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   url: PropTypes.string.isRequired,
   item: PropTypes.string,
+  setConfirm: PropTypes.func,
 };
 
 ConfirmDelete.defaultProps = {
   item: '',
+  setConfirm: () => {},
 };
 
 export default ConfirmDelete;
