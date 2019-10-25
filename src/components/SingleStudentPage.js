@@ -121,7 +121,7 @@ const handleDelete = (id) => {
       </Modal>
     <Jumbotron>
       <h1>{`${student.student_name}`}</h1>
-      <h3>{student.major}</h3>
+      <h3>{`Major: ${student.major}`}</h3>
     </Jumbotron>
 
     <Container>
@@ -143,7 +143,7 @@ const handleDelete = (id) => {
                     <Input className='message-area' type='date' name='date' id='email' value={form.date} onChange={handleChange} />
                 </FormGroup>
                 <FormGroup >
-                    <Label for='password'>Password:  </Label>
+                    <Label for='password'>Message:  </Label>
                     <textarea className='message-area' name='message' id='password' placeholder='  message' value={form.message} onChange={handleChange} />
                 </FormGroup>
                 <Button>Send Message</Button>

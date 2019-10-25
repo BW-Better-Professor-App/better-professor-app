@@ -25,7 +25,7 @@ const MessageForm = () => {
             <Form className='message-form'onSubmit={handleSubmit}>
                 <FormGroup >
                     <Label for='date'>Date:  </Label>
-                    <Input className='message-area' type='date' name='date' id='email' value={form.date} onChange={handleChange} />
+                    <Input classNage='message-area' type='date' name='date' id='email' value={form.date} onChange={handleChange} />
                 </FormGroup>
                 <FormGroup >
                     <Label for='password'>Password:  </Label>

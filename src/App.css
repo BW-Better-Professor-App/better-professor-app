@@ -122,8 +122,8 @@ button, Button {
 
 @media (max-width: 1024px){
   button, Button, .btn {
-    padding: 0.6rem 2.3rem;
-    font-size: 1.5rem;
+    font-size: 1.1rem; 
+    margin: 2% 3%;
   }
 }
 
@@ -132,7 +132,7 @@ button, Button {
   height: calc(1.75em + 0.75rem + 2px);
 }
 
-h2 {
+h2, h1 {
   font-weight: 900;
   font-size: 2.8rem;
   color: #49494b;
@@ -144,12 +144,23 @@ h2 {
   background:#f8f3f2;
   box-shadow: 
     2px 2px 5px rgba(0,0,0,0.5);
-    /* 10px 10px 15px rgba(0,0,0,0.5); */
-    /* -1px -1px 30px rgba(0,0,0,0.2); */
   margin: 5%;
 }
 .jumbotron{
   background: #d1bfa7;
+  width: 50%;
+  margin: 3% auto;
+  border: 1px solid black;
+  box-shadow: 
+    2px 2px 5px rgba(0,0,0,0.5),
+    10px 10px 15px rgba(0,0,0,0.5),
+     -1px -1px 30px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 1024px){
+  .jumbotron {
+    width: 85%;
+  }
 }
 
 .btn {
