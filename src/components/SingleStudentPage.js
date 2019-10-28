@@ -193,14 +193,6 @@ const SingleStudentPage = ({ student }) => {
         <Button color="success" className="w-25 align-self-center" onClick={toggleModal}>Add Project</Button>
       </ListGroup>
       <ListGroup>
-          <Button
-            color="success"
-            className="w-25 align-self-center"
-            onClick={toggleModal}
-          >
-            Add Project
-          </Button>
-
           <ListGroup>
             <ListGroupItemHeading>Professor Messages</ListGroupItemHeading>
             {messageList.map((message) => (
