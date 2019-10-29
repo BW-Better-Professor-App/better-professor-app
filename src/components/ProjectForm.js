@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Button, Form, Label, Input, FormGroup, Container,
+  Alert, Button, Form, Label, Input, FormGroup, Container,
 } from 'reactstrap';
 
 import { axiosWithAuth } from './utils/axiosWithAuth';
@@ -39,7 +39,6 @@ const ProjectForm = ({ studentList }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     project.assignedStudents.forEach((assignedStudent) => {
       axiosWithAuth()
         .post('/projects', {
@@ -69,6 +68,7 @@ const ProjectForm = ({ studentList }) => {
               id="name"
               placeholder="Project name"
               onChange={handleChange}
+              required
             />
           </FormGroup>
           <FormGroup>
@@ -79,6 +79,7 @@ const ProjectForm = ({ studentList }) => {
               id="description"
               placeholder="Description"
               onChange={handleChange}
+              required
             />
           </FormGroup>
           <FormGroup>
@@ -89,6 +90,7 @@ const ProjectForm = ({ studentList }) => {
               id="deadline"
               placeholder="date"
               onChange={handleChange}
+              required
             />
           </FormGroup>
           <FormGroup>
@@ -109,6 +111,7 @@ const ProjectForm = ({ studentList }) => {
               id="assignedStudents"
               onChange={handleChange}
               multiple
+              required
             >
               {studentList.sort((a, b) => {
                 if (a.student_name.toUpperCase() < b.student_name.toUpperCase()) { return -1; }

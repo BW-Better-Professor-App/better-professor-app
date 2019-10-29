@@ -133,16 +133,15 @@ const SingleStudentPage = ({ student }) => {
     e.preventDefault();
     axiosWithAuth()
       .post('/messages', form)
-      .then((res) =>{
-        setMessageList([...messageList, res.data[0]])
-          setForm({
-            date: '',
-            message: '',
-            student_id: student.id
-          })
-        }
-      )
-      
+      .then((res) => {
+        setMessageList([...messageList, res.data[0]]);
+        setForm({
+          date: '',
+          message: '',
+          student_id: student.id,
+        });
+      })
+
       .catch((error) => console.log(error));
   };
 
@@ -184,15 +183,12 @@ const SingleStudentPage = ({ student }) => {
           </Form>
         </ModalBody>
       </Modal>
-    <Jumbotron>
-      <h1>{`${student.student_name}`}</h1>
-      <h3>{`Major: ${student.major}`}</h3>
-    </Jumbotron>
-    <Container>
-      <ListGroup>
-        <Button color="success" className="w-25 align-self-center" onClick={toggleModal}>Add Project</Button>
-      </ListGroup>
-      <ListGroup>
+      <Jumbotron>
+        <h1>{`${student.student_name}`}</h1>
+        <h3>{`Major: ${student.major}`}</h3>
+      </Jumbotron>
+      <Container>
+        <ListGroup>
           <Button
             color="success"
             className="w-25 align-self-center"
@@ -216,16 +212,16 @@ const SingleStudentPage = ({ student }) => {
           <div className="Message-form">
             <h2>Message Form</h2>
             <hr />
-            <Form className='message-form'onSubmit={handleSubmit}>
-                <FormGroup >
-                    <Label for='date'>Date:  </Label>
-                    <Input className='message-area' type='date' name='date' id='email' value={form.date} onChange={handleChange} />
-                </FormGroup>
-                <FormGroup >
-                    <Label for='password'>Message:  </Label>
-                    <textarea className='message-area' name='message' id='password' placeholder='  message' value={form.message} onChange={handleChange} />
-                </FormGroup>
-                <Button>Send Message</Button>
+            <Form className="message-form" onSubmit={handleSubmit}>
+              <FormGroup>
+                <Label for="date">Date:  </Label>
+                <Input className="message-area" type="date" name="date" id="email" value={form.date} onChange={handleChange} />
+              </FormGroup>
+              <FormGroup>
+                <Label for="password">Message:  </Label>
+                <textarea className="message-area" name="message" id="password" placeholder="  message" value={form.message} onChange={handleChange} />
+              </FormGroup>
+              <Button>Send Message</Button>
             </Form>
           </div>
 
@@ -256,7 +252,6 @@ const SingleStudentPage = ({ student }) => {
       </Container>
     </Container>
   );
-  
 };
 
 
